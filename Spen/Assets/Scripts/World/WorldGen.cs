@@ -5,21 +5,36 @@ using UnityEngine.Tilemaps;
 
 public class WorldGen : MonoBehaviour
 {
-    //global grid
-    Grid globalGrid;
-    Tilemap map;
+    //global map
+    public Tilemap map;
+    public Sprite TEMPTILE;
+    Chunk aChunk;
+
     void Awake()
     {
-        map = new Tilemap();
-        globalGrid = new Grid();
+
     }
-    /*
-     * 1. World Grid
-     * (not sure how these two work together)
-     * 2. Create a Tilemap https://medium.com/@allencoded/unity-tilemaps-and-storing-individual-tile-data-8b95d87e9f32
+
+    void Start()
+    {
+        aChunk = new Chunk();
+        DrawChunk(0);
+    }
+
+    void DrawChunk(int offset)
+    {
+        for (int i = 0; i < Chunk.size; i++)
+        {
+            for (int j = 0; j < Chunk.size; j++)
+            {
+                map.SetTile(new Vector3Int(i + offset, j + offset, 0), aChunk.GetTile(i, j));
+            }
+        }
+    }
+    /* 
      * 3. Chunk
      * 4. Tiles
-     * 5. Chunk loading
+     * 5.       Chunk loading  <----
      * 6. Biome logic behind chunks 
      * 
      * Chunks are either:
