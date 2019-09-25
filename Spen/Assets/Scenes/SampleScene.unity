@@ -149,7 +149,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &123614405
 MonoBehaviour:
@@ -252,14 +252,42 @@ Tilemap:
   m_Enabled: 1
   m_Tiles: {}
   m_AnimatedTiles: {}
-  m_TileAssetArray: []
-  m_TileSpriteArray: []
-  m_TileMatrixArray: []
-  m_TileColorArray: []
+  m_TileAssetArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  m_TileMatrixArray:
+  - m_RefCount: 0
+    m_Data:
+      e00: NaN
+      e01: NaN
+      e02: 7.62622e+21
+      e03: 0
+      e10: NaN
+      e11: NaN
+      e12: 1.4e-43
+      e13: 0
+      e20: 0
+      e21: 7.626211e+21
+      e22: 0
+      e23: 0
+      e30: 0
+      e31: 1.4e-43
+      e32: 0
+      e33: 0
+  m_TileColorArray:
+  - m_RefCount: 0
+    m_Data: {r: 9.948799e+17, g: 9.948799e+17, b: 9.948799e+17, a: 9.948799e+17}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: 0, y: 0, z: 0}
-  m_Size: {x: 0, y: 0, z: 1}
+  m_Origin: {x: -2, y: -3, z: 0}
+  m_Size: {x: 4, y: 5, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -321,7 +349,7 @@ Transform:
   m_Children:
   - {fileID: 288542407}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -483,11 +511,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1644940096}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.96, y: 1.16, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1644940099
 MonoBehaviour:
@@ -519,7 +547,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.2, y: 0.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -607,7 +635,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Sprites:
   - name: Grass
-    sprite: {fileID: 1807125615787039003, guid: 240aecb9c405245448f32a89f591d4a0,
+    sprite: {fileID: -1971791837424076418, guid: e14f0cd1b49d3c04e8348ecf9d6833fc,
       type: 3}
   - name: Water
-    sprite: {fileID: 349823833441268365, guid: 240aecb9c405245448f32a89f591d4a0, type: 3}
+    sprite: {fileID: -8800955792890450087, guid: e14f0cd1b49d3c04e8348ecf9d6833fc,
+      type: 3}
+  - name: Sand
+    sprite: {fileID: -3916266701416143992, guid: e14f0cd1b49d3c04e8348ecf9d6833fc,
+      type: 3}
+  - name: Rock
+    sprite: {fileID: 5852835766652960158, guid: e14f0cd1b49d3c04e8348ecf9d6833fc,
+      type: 3}

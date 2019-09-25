@@ -6,6 +6,8 @@ public enum BiomeType
 {
     Forest,
     Ocean,
+    Desert,
+    Mountain,
     Edge
 }
 

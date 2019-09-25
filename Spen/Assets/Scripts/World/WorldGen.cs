@@ -20,11 +20,10 @@ public class WorldGen : MonoBehaviour
 {
     //global map
     public Tilemap map;
-    Chunk aChunk;
-    Chunk anotherChunk;
 
     //Temp?
     public static int WorldSize = 64;
+    private int numChunks = WorldSize / Chunk.size;
     private int numBiomes = 4;
 
     //Loaded Chunks Container
@@ -45,76 +44,79 @@ public class WorldGen : MonoBehaviour
         {
             for (int j = 0; j < WorldSize; j++)
             {
-                if (i > WorldSize / 2 && j > WorldSize / 2)
-                {
-                    generatedtiles[i, j] = new GenTile(i, j, BiomeType.Forest);
-                }
-                else if (i <= WorldSize / 2 && j <= WorldSize / 2)
+                float gen = Mathf.PerlinNoise(i * 0.15f , j * 0.15f);
+                Debug.Log("" + gen);
+
+                if (gen < 0.25f)
                 {
                     generatedtiles[i, j] = new GenTile(i, j, BiomeType.Ocean);
                 }
-                else if (i > WorldSize / 2 && j <= WorldSize / 2)
+                else if (gen >= 0.25f && gen < 0.5f)
+                {
+                    generatedtiles[i, j] = new GenTile(i, j, BiomeType.Desert);
+                }
+                else if (gen >= 0.5f && gen < 0.75f)
                 {
                     generatedtiles[i, j] = new GenTile(i, j, BiomeType.Forest);
                 }
-                else if (i <= WorldSize / 2 && j > WorldSize / 2)
+                else if (gen >= 0.75f)
                 {
-                    generatedtiles[i, j] = new GenTile(i, j, BiomeType.Forest);
+                    generatedtiles[i, j] = new GenTile(i, j, BiomeType.Mountain);
                 }
+
+                /*
+                switch (Random.Range(1, 5))
+                {
+                    case 1:
+                        generatedtiles[i, j] = new GenTile(i, j, BiomeType.Ocean);
+                        break;
+                    case 2:
+                        generatedtiles[i, j] = new GenTile(i, j, BiomeType.Forest);
+                        break;
+                    case 3:
+                        generatedtiles[i, j] = new GenTile(i, j, BiomeType.Desert);
+                        break;
+                    case 4:
+                        generatedtiles[i, j] = new GenTile(i, j, BiomeType.Mountain);
+                        break;
+                }
+                */
             }
         }
-        //generatedtiles is the biome map this
-        int xoffset = 24;
-        int yoffset = 0;
-        GenTile[,] chunk = new GenTile[Chunk.size, Chunk.size];
-        //Manual array copy?
-        for (int i = 0; i < Chunk.size; i++)
+
+        //Generate 
+        List<GenTile[,]> chunkMapList = new List<GenTile[,]>();
+        //gen all chunks
+        
+        Debug.Log("numchunk: " + numChunks);
+        for (int i = 0; i < numChunks; i++)
         {
-            for (int j = 0; j < Chunk.size; j++)
+            for (int j = 0; j < numChunks; j++)
             {
-                chunk[i, j] = generatedtiles[i + xoffset, j + yoffset];
+                //gen chunk
+                GenTile[,] chunkMap = new GenTile[Chunk.size, Chunk.size];
+                for (int k = 0; k < Chunk.size; k++)
+                {
+                    for (int z = 0; z < Chunk.size; z++)
+                    {
+                        chunkMap[k, z] = generatedtiles[k + i*Chunk.size, z + j*Chunk.size];
+                    }
+                }
+                chunkMapList.Add(chunkMap);
+                DrawChunk(new Chunk(i * Chunk.size - 32, j * Chunk.size - 32, chunkMap));
             }
         }
 
 
-
-        int rowLength = chunk.GetLength(0);
-        int colLength = chunk.GetLength(1);
-        string arrayString = "";
-        for (int i = 0; i < rowLength; i++)
-        {
-            for (int j = 0; j < colLength; j++)
-            {
-                arrayString += string.Format("{0} ", chunk[i, j].tileBiome);
-            }
-            arrayString += System.Environment.NewLine + System.Environment.NewLine;
-        }
-        Debug.Log(arrayString);
-
-        //PRINT ARRAY TO CONSOLE DEBUG
-
-        //Chunk generation takes subset of this big array and creates tiles
-
-        //Using Biome map, we load/unload required chunks
-        //Chunk
-        // - Creates actual tiles when chunk is loaded
-        // - Removes actual tiles on unload
-
-
-        //Debug.Log("" + Chunk.size * -1);
-       // aChunk = new Chunk(Chunk.size * -1, Chunk.size * 0, BiomeType.Forest);
-       // anotherChunk = new Chunk(Chunk.size * 0, Chunk.size * 0, BiomeType.Ocean);
-       // DrawChunk();
     }
 
-    void DrawChunk()
+    void DrawChunk(Chunk chunk)
     {
         for (int i = 0; i < Chunk.size; i++)
         {
             for (int j = 0; j < Chunk.size; j++)
             {
-                map.SetTile(new Vector3Int(aChunk.coords.x + i, aChunk.coords.y + j, 0), aChunk.GetTile(i, j));
-                map.SetTile(new Vector3Int(anotherChunk.coords.x + i, anotherChunk.coords.y + j, 0), anotherChunk.GetTile(i, j));
+                map.SetTile(new Vector3Int(chunk.coords.x + i, chunk.coords.y + j, 0), chunk.GetTile(i, j));
             }
         }
     }

@@ -1,13 +1,19 @@
 fileFormatVersion: 2
-guid: 240aecb9c405245448f32a89f591d4a0
+guid: e14f0cd1b49d3c04e8348ecf9d6833fc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1807125615787039003
-    second: tiles_0
+      213: -1971791837424076418
+    second: PastelTile_0
   - first:
-      213: 349823833441268365
-    second: tiles_1
+      213: -8800955792890450087
+    second: PastelTile_1
+  - first:
+      213: -3916266701416143992
+    second: PastelTile_2
+  - first:
+      213: 5852835766652960158
+    second: PastelTile_3
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -49,11 +55,11 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  alignment: 6
+  spritePivot: {x: 0, y: 0}
+  spritePixelsToUnits: 64
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -104,43 +110,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: tiles_0
+      name: PastelTile_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
-      alignment: 0
+        width: 64
+        height: 64
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ca44c01b5f648b40aef594f896eadbe
-      internalID: 1807125615787039003
+      spriteID: c0c12d3822bd0674ea5d33a072e4909b
+      internalID: -1971791837424076418
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tiles_1
+      name: PastelTile_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 64
         y: 0
-        width: 32
-        height: 32
-      alignment: 0
+        width: 64
+        height: 64
+      alignment: 6
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 313ce740a5086c844a90cadf61b8ba25
-      internalID: 349823833441268365
+      spriteID: 28c7b0c2d6b9e184ba99f78d645307a3
+      internalID: -8800955792890450087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PastelTile_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e87cbb3028d09c4479150cc4c3ff12a9
+      internalID: -3916266701416143992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PastelTile_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 6
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8e0fe4e7616947438e8201c15049855
+      internalID: 5852835766652960158
       vertices: []
       indices: 
       edges: []
