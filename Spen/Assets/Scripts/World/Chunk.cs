@@ -51,4 +51,9 @@ public class Chunk
     {
         return tiles[x, y];
     }
+
+    public void Tick()
+    {
+        
+    }
 }
