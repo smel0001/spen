@@ -21,24 +21,25 @@ public class WorldGen : MonoBehaviour
     //global map
     public Tilemap map;
 
-    //Temp?
-    public static int WorldSize = 64;
+    public static int WorldSize = 16;
     private int numChunks = WorldSize / Chunk.size;
+
+    //not used yet
     private int numBiomes = 4;
 
-    private Dictionary<SystemTuple<int, int>, GenTile[,]> fullchunkmap;
-
-    private List<Chunk> loadedChunks;
-    private Dictionary<System.Tuple<int,int>,Chunk> michunks;
+    private Dictionary<System.Tuple<int, int>, GenTile[,]> fullchunkmap;
+    private Dictionary<System.Tuple<int,int>,Chunk> loadedChunks;
 
     ///TEMP
     GameObject player;
     System.Tuple<int, int> curChunk;
+    int curx = 0;
+    int cury = 0;
 
     void Awake()
     {
         fullchunkmap = new Dictionary<System.Tuple<int,int>, GenTile[,]>();
-        michunks = new Dictionary<System.Tuple<int, int>, Chunk>();
+        loadedChunks = new Dictionary<System.Tuple<int, int>, Chunk>();
     }
 
     void Start()
@@ -53,8 +54,7 @@ public class WorldGen : MonoBehaviour
         {
             for (int j = 0; j < WorldSize; j++)
             {
-                float gen = Mathf.PerlinNoise(i * 0.002f , j * 0.002f);
-                Debug.Log("" + gen);
+                float gen = Mathf.PerlinNoise(i * 0.005f , j * 0.005f);
 
                 if (gen < 0.25f)
                 {
@@ -75,9 +75,6 @@ public class WorldGen : MonoBehaviour
             }
         }
 
-
-        //Sort filled world into chunks to save + load
-
         //Generate
         List<GenTile[,]> chunkMapList = new List<GenTile[,]>();
 
@@ -96,10 +93,6 @@ public class WorldGen : MonoBehaviour
                 }
 
                 fullchunkmap.Add(new System.Tuple<int, int>(i, j), chunkMap);
-                michunks.Add(new System.Tuple<int, int>(i, j), new Chunk(i * Chunk.size - 32, j * Chunk.size - 32);
-
-                //Temp draw all chunk
-                DrawChunk(new Chunk(i * Chunk.size - 32, j * Chunk.size - 32, chunkMap));
             }
         }
 
@@ -109,11 +102,16 @@ public class WorldGen : MonoBehaviour
 
         ///TEMP
         player = GameObject.FindWithTag("Player");
-        curChunk = new System.Tuple<int, int>(0,0);
+        LoadAllChunks();
     }
 
-    void DrawChunk(Chunk chunk)
+    void LoadChunk(int x, int y)
     {
+        //Load chunk from map
+        GenTile[,] chunkmap = fullchunkmap[new System.Tuple<int, int>(x, y)];
+        Chunk chunk = new Chunk(x * Chunk.size, y * Chunk.size, chunkmap);
+        loadedChunks.Add(new System.Tuple<int, int>(chunk.coords.x / Chunk.size, chunk.coords.y / Chunk.size), chunk);
+
         for (int i = 0; i < Chunk.size; i++)
         {
             for (int j = 0; j < Chunk.size; j++)
@@ -121,11 +119,13 @@ public class WorldGen : MonoBehaviour
                 map.SetTile(new Vector3Int(chunk.coords.x + i, chunk.coords.y + j, 0), chunk.GetTile(i, j));
             }
         }
-        loadedChunks.Add(chunk);
     }
 
-    void UnloadChunk(Chunk chunk)
+    void UnloadChunk(int x, int y)
     {
+        System.Tuple<int, int> chunktuple = new System.Tuple<int, int>(x, y);
+        Chunk chunk = loadedChunks[chunktuple];
+
         for (int i = 0; i < Chunk.size; i++)
         {
             for (int j = 0; j < Chunk.size; j++)
@@ -133,9 +133,9 @@ public class WorldGen : MonoBehaviour
                 map.SetTile(new Vector3Int(chunk.coords.x + i, chunk.coords.y + j, 0), null);
             }
         }
-        loadedChunks.Remove(chunk);
+        loadedChunks.Remove(chunktuple);
     }
-        
+
     /* 
      * 3. Chunk
      * 4. Tiles
@@ -148,22 +148,38 @@ public class WorldGen : MonoBehaviour
      */
 
 
+    void LoadAllChunks()
+    {
+        for (int i = 0; i < numChunks; i++)
+        {
+            for (int j= 0; j < numChunks; j++)
+            {
+                LoadChunk(i, j);
+            }
+        }
+    }
 
-     void Update()
+
+    void LoadPlayerChunk()
+    {
+        int playerX = (int)player.transform.position.x / Chunk.size;
+        int playerY = (int)player.transform.position.y / Chunk.size;
+
+        if (curx != playerX || cury != playerY)
+        {
+            UnloadChunk(curx, cury);
+            curx = playerX;
+            cury = playerY;
+            LoadChunk(playerX, playerY);
+        }
+    }
+
+    void Update()
      {
          //Update loaded chunks
-         foreach (Chunk chnk in loadedChunks)
-         {
-             chnk.Tick();
-         }
-
-         //temp only load chunk the player is in
-        Debug.Log("" + player.transform.position);
-        int playerX = int(player.transform.position.x);
-        int playerY = int(player.transform.position.y);
-
-        //when player leaves chunk load and unload
-        curChunk
-
+         //foreach (Chunk chnk in loadedChunks)
+         //{
+         //    chnk.Tick();
+         //}
      }
 }
