@@ -11,10 +11,14 @@ public class Player : MonoBehaviour
     float horiz;
     float vert;
 
+    private Inventory inventory;
+
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        inventory = new Inventory();
     }
 
     // Update is called once per frame
