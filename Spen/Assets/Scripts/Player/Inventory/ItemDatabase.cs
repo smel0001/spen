@@ -23,6 +23,7 @@ public class ItemDatabase : MonoBehaviour
         }
     }
 
+    //Debug/Dev Function
     void SaveItemDatabase()
     {
         Item[] items = database.ToArray();
@@ -36,39 +37,8 @@ public class ItemDatabase : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public class Item
-{
-    public int ID;
-    public string Title;
-    public int Value;
-    public bool Stackable;
-    public string Slug;
-    [System.NonSerialized]
-    public Sprite Icon;
-
-    public Item()
-    {
-        this.ID = -1;
-    }
-
-    public Item(int id, string title, int value, string slug)
-    {
-        this.ID = id;
-        this.Title = title;
-        this.Value = value;
-        this.Stackable = false;
-        this.Slug = slug;
-    }
-
-    public void Init()
-    {
-        this.Icon = Resources.Load<Sprite>("Sprites/Items/" + Slug);
-    }
-}
-
-
-
+//From:
+//Functions for JsonUtility to manage arrays
 public static class JsonHelper
 {
     public static T[] FromJson<T>(string json)

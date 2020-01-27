@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-
     }
 
     // Update is called once per frame

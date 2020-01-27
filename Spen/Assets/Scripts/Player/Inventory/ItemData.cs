@@ -1,11 +1,17 @@
-﻿using System.Collections;
+﻿/*
+Poorly named class.
+This class manages the Item UI element and event systems to make it interactable
+
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class ItemData : MonoBehaviour,
-IPointerDownHandler, IDragHandler, IPointerUpHandler
+IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Item item;
     public int amount;
@@ -14,18 +20,30 @@ IPointerDownHandler, IDragHandler, IPointerUpHandler
     private Inventory inv;
     private Vector2 offset;
 
+    private Tooltip tooltip;
+
+    private GameObject canvas;
+
     void Start()
     {
         inv = GameObject.Find("Inv").GetComponent<Inventory>();
+        canvas = GameObject.Find("Canvas");
+        tooltip = inv.GetComponent<Tooltip>();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        /*
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            Debug.Log("right click");
+        }
+        */
         if (item != null)
         {
             offset = eventData.position - (Vector2)this.transform.position;
 
-            this.transform.SetParent(this.transform.parent.parent);
+            this.transform.SetParent(canvas.transform);
             this.transform.position = eventData.position - offset;
             GetComponent<Image>().raycastTarget = false;
         }
@@ -78,5 +96,15 @@ IPointerDownHandler, IDragHandler, IPointerUpHandler
         GameObject newSlot = inv.slots[slotIndex];
         this.transform.SetParent(newSlot.transform);
         this.transform.position = newSlot.transform.position;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        tooltip.Activate(item);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        tooltip.Deactivate();
     }
 }
