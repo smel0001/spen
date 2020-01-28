@@ -33,12 +33,6 @@ IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerEnterHandler, IPoi
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        /*
-        if (Input.GetKey(KeyCode.Mouse1))
-        {
-            Debug.Log("right click");
-        }
-        */
         if (item != null)
         {
             offset = eventData.position - (Vector2)this.transform.position;

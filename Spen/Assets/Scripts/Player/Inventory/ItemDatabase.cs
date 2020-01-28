@@ -5,7 +5,23 @@ using System.IO;
 
 public class ItemDatabase : MonoBehaviour
 {
+    public static ItemDatabase instance;
+
+    void Awake()
+    {
+        if (instance == null) {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+
     private List<Item> database = new List<Item>();
+    private static string itemDatabaseFileName = "/StreamingAssets/Items.json";
+
 
     void Start()
     {
@@ -14,7 +30,8 @@ public class ItemDatabase : MonoBehaviour
 
     void LoadItemDatabase()
     {
-        Item[] items = JsonHelper.FromJson<Item>(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json"));
+        string filePath = Application.dataPath + itemDatabaseFileName;
+        Item[] items = JsonHelper.FromJson<Item>(File.ReadAllText(filePath));
         for (int i = 0; i < items.Length; i++)
         {
             //TODO move item init to inside the FromJson call

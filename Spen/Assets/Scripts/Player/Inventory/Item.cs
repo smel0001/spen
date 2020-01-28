@@ -22,6 +22,7 @@ public class Item
 
     [System.NonSerialized]
     public Sprite Icon;
+    private GameObject WorldItem;
 
     public Item()
     {
@@ -41,9 +42,10 @@ public class Item
     {
         //Core Init
         this.Icon = Resources.Load<Sprite>("Sprites/Items/" + Slug);
+        ExtendInit();
     }
 
-    protected void ExtendInit()
+    protected virtual void ExtendInit()
     {}
 
     public string DataString()
@@ -51,17 +53,17 @@ public class Item
         string data = "<color=#ff0000><b>" + this.Title + "</b></color>\n\n" + this.ID;
         return data;
     }
-}
 
-[System.Serializable]
-public class PlaceItem : Item
-{
-    public string PrefabSlug;
-    private GameObject prefab;
-    
-    public override void ExtendInit()
+    public void CreateInWorld()
     {
-        this.prefab = Resources.Load<GameObject>("Prefabs/" + PrefabSlug);
+        WorldItem = new GameObject(this.Title);
+        SpriteRenderer sr = WorldItem.AddComponent<SpriteRenderer>() as SpriteRenderer;
+        sr.sprite = this.Icon;
+    }
+
+    public void RemoveFromWorld()
+    {
+        Object.Destroy(WorldItem);
     }
 }
 
@@ -73,10 +75,50 @@ public class EquipItem : Item
 public class UseItem : Item
 {
     //Will probably need subclasses
-        //Consume
-        //Weapon
-            //Ranged
-            //Melee
-        //Tool
-        //?
+    //Consume
+    //Weapon
+    //Ranged
+    //Melee
+    //Tool
+    //?
+    public bool RemoveAfterUse = true;
+
+    public UseItem(int id, string title, int value, string slug) : base(id, title, value, slug)
+    {
+    }
+
+    protected override void ExtendInit()
+    { }
+
+    //Equivalent of on right click
+    public virtual void Activate()
+    {
+        Debug.Log("She works");
+    }
+}
+
+public class PlaceItem : UseItem
+{
+    public string PrefabSlug;
+    private GameObject prefab;
+
+    public PlaceItem(int id, string title, int value, string slug) : base(id, title, value, slug)
+    {
+        Debug.Log("Make Use");
+       
+    }
+
+    public override void Activate()
+    {
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        pos.z = 0f;
+        Object.Instantiate(prefab, pos, Quaternion.identity);
+    }
+
+    protected override void ExtendInit()
+    {
+        PrefabSlug = "chikin";
+        this.prefab = Resources.Load<GameObject>("Prefabs/" + PrefabSlug);
+        Debug.Log("?");
+    }
 }
