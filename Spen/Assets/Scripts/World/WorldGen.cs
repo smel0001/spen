@@ -116,7 +116,8 @@ public class WorldGen : MonoBehaviour
         {
             for (int j = 0; j < Chunk.size; j++)
             {
-                map.SetTile(new Vector3Int(chunk.coords.x + i, chunk.coords.y + j, 0), chunk.GetTile(i, j));
+                //map.SetTile(new Vector3Int(chunk.coords.x + i, chunk.coords.y + j, 0), chunk.GetTile(i, j);
+                map.SetTile(new Vector3Int(chunk.coords.x + i, chunk.coords.y + j, 0), chunk.ruleTile);
                 //NOTE: RuleTiles work in code pog
             }
         }
