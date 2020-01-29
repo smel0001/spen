@@ -54,7 +54,7 @@ public class WorldGen : MonoBehaviour
         {
             for (int j = 0; j < WorldSize; j++)
             {
-                float gen = Mathf.PerlinNoise(i * 0.005f , j * 0.005f);
+                float gen = Mathf.PerlinNoise(i * 0.05f , j * 0.05f);
 
                 if (gen < 0.25f)
                 {
@@ -117,6 +117,7 @@ public class WorldGen : MonoBehaviour
             for (int j = 0; j < Chunk.size; j++)
             {
                 map.SetTile(new Vector3Int(chunk.coords.x + i, chunk.coords.y + j, 0), chunk.GetTile(i, j));
+                //NOTE: RuleTiles work in code pog
             }
         }
     }

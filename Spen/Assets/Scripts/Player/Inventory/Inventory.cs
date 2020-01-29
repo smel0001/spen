@@ -32,6 +32,7 @@ public class Inventory : MonoBehaviour
         itemData =  GetComponent<ItemDatabase>();
         inventoryPanel = GameObject.Find("InventoryPanel");
         slotPanel = inventoryPanel.transform.Find("SlotPanel").gameObject;
+        inventoryPanel.SetActive(false);
         tooltip = GetComponent<Tooltip>();
 
         toolbarPanel = GameObject.Find("ToolbarPanel");
@@ -52,7 +53,6 @@ public class Inventory : MonoBehaviour
         }
 
         updateSelectedSlot(0);
-
 
         AddItem(0);
         AddItem(0);
