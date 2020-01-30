@@ -76,7 +76,7 @@ public class WorldGen : MonoBehaviour
         }
 
         //Generate
-        List<GenTile[,]> chunkMapList = new List<GenTile[,]>();
+        //List<GenTile[,]> chunkMapList = new List<GenTile[,]>();
 
         for (int i = 0; i < numChunks; i++)
         {
@@ -107,7 +107,6 @@ public class WorldGen : MonoBehaviour
 
     void LoadChunk(int x, int y)
     {
-        //Load chunk from map
         GenTile[,] chunkmap = fullchunkmap[new System.Tuple<int, int>(x, y)];
         Chunk chunk = new Chunk(x * Chunk.size, y * Chunk.size, chunkmap);
         loadedChunks.Add(new System.Tuple<int, int>(chunk.coords.x / Chunk.size, chunk.coords.y / Chunk.size), chunk);
@@ -116,9 +115,7 @@ public class WorldGen : MonoBehaviour
         {
             for (int j = 0; j < Chunk.size; j++)
             {
-                //map.SetTile(new Vector3Int(chunk.coords.x + i, chunk.coords.y + j, 0), chunk.GetTile(i, j);
-                map.SetTile(new Vector3Int(chunk.coords.x + i, chunk.coords.y + j, 0), chunk.ruleTile);
-                //NOTE: RuleTiles work in code pog
+                map.SetTile(new Vector3Int(chunk.coords.x + i, chunk.coords.y + j, 0), chunk.GetTile(i,j));
             }
         }
     }
