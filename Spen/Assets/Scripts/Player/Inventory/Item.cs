@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-
 /*
 Options for Item sub-classes:
 
@@ -54,6 +53,10 @@ public class Item
         return data;
     }
 
+    public virtual void EnterSelected() {}
+    public virtual void WhileSelected() {}
+    public virtual void ExitSelected() {}
+
     public void CreateInWorld()
     {
         WorldItem = new GameObject(this.Title);
@@ -102,10 +105,15 @@ public class PlaceItem : UseItem
     public string PrefabSlug;
     private GameObject prefab;
 
+    //TEMP, find better way to do this, maybe as static etc
+    private Cursor cursor;
+
+    //Icon image for indicator
+
     public PlaceItem(int id, string title, int value, string slug) : base(id, title, value, slug)
     {
         Debug.Log("Make Use");
-       
+        cursor = GameObject.Find("UI/Canvas/Cursor").GetComponent<Cursor>();
     }
 
     public override void Activate()
@@ -121,4 +129,21 @@ public class PlaceItem : UseItem
         this.prefab = Resources.Load<GameObject>("Prefabs/" + PrefabSlug);
         Debug.Log("?");
     }
+
+    public override void EnterSelected() 
+    {
+        cursor.SetSprite(this.Icon);
+    }
+    public override void WhileSelected() {}
+    public override void ExitSelected()
+    {
+        cursor.ResetSprite();
+    }
+
+
 }
+
+/*
+public class PlaceTileItem : PlaceItem
+use a RuleTile instead of a prefab when placing, and place into the appropriate tilemap layer
+*/

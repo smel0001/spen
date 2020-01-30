@@ -61,6 +61,10 @@ public class Inventory : MonoBehaviour
         AddItem(0);
         AddItem(0);
         AddItem(0);
+
+        PlaceItem temp = new PlaceItem(12, "Placer", 9, "apple");
+        temp.Init();
+        AddItem(temp);
     }
 
     void Update()
@@ -75,6 +79,7 @@ public class Inventory : MonoBehaviour
 
                 if (activeItem.RemoveAfterUse)
                 {
+                    items[SelectedSlot].ExitSelected();
                     RemoveItem(SelectedSlot);
                 }
             }
@@ -89,7 +94,7 @@ public class Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             //Drop selected item
-            RemoveItem(SelectedSlot);
+            DropItem(SelectedSlot);
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -104,6 +109,10 @@ public class Inventory : MonoBehaviour
         }
 
         //Input for selected slot in toolbar
+        //TODO add on selected and exit selected
+        items[SelectedSlot].WhileSelected();
+
+        
     }
 
     public void AddItem(int id)
@@ -169,17 +178,21 @@ public class Inventory : MonoBehaviour
         }
     }
     
-
+    public void DropItem(int index)
+    {
+        if (items[index].ID != -1)
+        {
+            items[index].CreateInWorld();
+            //maybe move to some world list
+            //set to player pos
+            RemoveItem(index);
+        }
+    }
 
     public void RemoveItem(int index)
     {
         if (items[index].ID != -1)
         {
-            items[index].CreateInWorld();
-
-            //maybe move to some world list
-            //set to player pos
-
             items[index] = new Item();
             Destroy(slots[index].transform.GetChild(0).gameObject);
         }
@@ -197,6 +210,7 @@ public class Inventory : MonoBehaviour
 
     private void updateSelectedSlot(int index)
     {
+        //clamp
         if (index > toolbarSlotAmount - 1)
         {
             index = 0;
@@ -207,7 +221,11 @@ public class Inventory : MonoBehaviour
         }
 
         slots[SelectedSlot].GetComponent<Image>().color = Color.white;
+        items[SelectedSlot].ExitSelected();
+
         SelectedSlot = index;
+
         slots[SelectedSlot].GetComponent<Image>().color = Color.red;
+        items[SelectedSlot].EnterSelected();
     }
 }
