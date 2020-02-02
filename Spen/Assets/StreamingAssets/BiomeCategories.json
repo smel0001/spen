@@ -1,0 +1,52 @@
+{
+    "Items": [
+        {
+            "ID": 0,
+            "Title": "Coldest",
+            "isTemperature": true,
+            "Threshold": 0.25
+        },
+        {
+            "ID": 1,
+            "Title": "Cold",
+            "isTemperature": true,
+            "Threshold": 0.5
+        },
+        {
+            "ID": 2,
+            "Title": "Warm",
+            "isTemperature": true,
+            "Threshold": 0.75
+        },
+        {
+            "ID": 3,
+            "Title": "Warmest",
+            "isTemperature": true,
+            "Threshold": 1
+        },
+        {
+            "ID": 4,
+            "Title": "Dryest",
+            "isTemperature": false,
+            "Threshold": 0.25
+        },
+        {
+            "ID": 5,
+            "Title": "Dry",
+            "isTemperature": false,
+            "Threshold": 0.5
+        },
+        {
+            "ID": 6,
+            "Title": "Wet",
+            "isTemperature": false,
+            "Threshold": 0.75
+        },
+        {
+            "ID": 7,
+            "Title": "Wettest",
+            "isTemperature": false,
+            "Threshold": 1
+        }
+    ]
+}

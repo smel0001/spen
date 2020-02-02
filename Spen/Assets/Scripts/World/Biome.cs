@@ -10,9 +10,3 @@ public enum BiomeType
     Mountain,
     Edge
 }
-
-//Biome holds
-public class Biome
-{
-
-}

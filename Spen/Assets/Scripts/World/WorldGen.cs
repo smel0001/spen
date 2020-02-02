@@ -5,10 +5,10 @@ using UnityEngine.Tilemaps;
 
 public struct GenTile
 {
-    public BiomeType tileBiome;
+    public Biome tileBiome;
     public int x, y;
 
-    public GenTile(int _x, int _y, BiomeType _biome)
+    public GenTile(int _x, int _y, Biome _biome)
     {
         x = _x;
         y = _y;
@@ -21,7 +21,22 @@ public class WorldGen : MonoBehaviour
     //global map
     public Tilemap map;
 
-    public static int WorldSize = 16;
+    public float levelScale;
+
+    [SerializeField]
+    private AnimationCurve heightCurve;
+    public NoiseMap.Wave[] heightWaves;
+
+    [SerializeField]
+    private AnimationCurve temperatureCurve;
+    public NoiseMap.Wave[] temperatureWaves;
+
+    [SerializeField]
+    private AnimationCurve moistureCurve;
+    public NoiseMap.Wave[] moistureWaves;
+
+
+    public static int WorldSize = 64;
     private int numChunks = WorldSize / Chunk.size;
 
     //not used yet
@@ -47,31 +62,54 @@ public class WorldGen : MonoBehaviour
         //Biome Generation
         // - Biome just creates map, doesn't load real tiles
 
-        //Insert Generation algorithms here
-        //Fill world with tiles (this is where we calculate biome)
+        //maybe biome can have a big list of coords for every tile in it
+        //this might be helpful for other random generation?
+
+        //I think having the biome class manage it's own tile generation is cleaner, each can have extra rules etc.
+
+        //maybe use a features/structures.json (or just classes) that can be placed in a final pass
+            
+        //HEIGHT
+        float[,] height = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, levelScale, 0, 0, heightWaves);
+
+        //HEAT
+        float[,] temperature = NoiseMap.GenerateUniformNoiseMap(WorldSize, WorldSize, WorldSize / 2, WorldSize/2, 0);
+        float[,] randomTemperature = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, levelScale, WorldSize, 0, temperatureWaves);
+        float[,] heatMap = new float[WorldSize, WorldSize];
+
+        for (int yIndex = 0; yIndex < WorldSize; yIndex++)
+        {
+            for (int xIndex = 0; xIndex < WorldSize; xIndex++)
+            {
+                // mix both heat maps together by multiplying their values
+                heatMap[xIndex, yIndex] = temperature[xIndex, yIndex] * randomTemperature[xIndex, yIndex];
+                // makes higher regions colder, by adding the height value to the heat map
+                heatMap[xIndex, yIndex] += temperatureCurve.Evaluate(height[xIndex, yIndex]) * heatMap[xIndex, yIndex];
+
+                heatMap[xIndex, yIndex] = Mathf.Clamp(heatMap[xIndex, yIndex], 0f, 1f);
+            }
+        }
+
+        //MOISTURE
+        float[,] moistureMap = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, levelScale, 0, 0, moistureWaves);
+        for (int yIndex = 0; yIndex < WorldSize; yIndex++)
+        {
+            for (int xIndex = 0; xIndex < WorldSize; xIndex++)
+            {
+                moistureMap[xIndex, yIndex] -= this.moistureCurve.Evaluate(height[xIndex, yIndex]) * moistureMap[xIndex, yIndex];
+
+                moistureMap[xIndex, yIndex] = Mathf.Clamp(moistureMap[xIndex, yIndex], 0f, 1f);
+            }
+        }
+
         GenTile[,] generatedtiles = new GenTile[WorldSize, WorldSize];
         for (int i = 0; i < WorldSize; i++)
         {
             for (int j = 0; j < WorldSize; j++)
             {
-                float gen = Mathf.PerlinNoise(i * 0.05f , j * 0.05f);
-
-                if (gen < 0.25f)
-                {
-                    generatedtiles[i, j] = new GenTile(i, j, BiomeType.Ocean);
-                }
-                else if (gen >= 0.25f && gen < 0.4f)
-                {
-                    generatedtiles[i, j] = new GenTile(i, j, BiomeType.Desert);
-                }
-                else if (gen >= 0.4f && gen < 0.75f)
-                {
-                    generatedtiles[i, j] = new GenTile(i, j, BiomeType.Forest);
-                }
-                else if (gen >= 0.75f)
-                {
-                    generatedtiles[i, j] = new GenTile(i, j, BiomeType.Mountain);
-                }
+                Biome chosenBio = ChooseBiome(height[i, j], heatMap[i, j], moistureMap[i, j]);
+                //Biome chosenBio = ChooseBiome(height[i, j], 1, 0);
+                generatedtiles[i, j] = new GenTile(i, j, chosenBio);
             }
         }
 
@@ -181,4 +219,10 @@ public class WorldGen : MonoBehaviour
          //    chnk.Tick();
          //}
      }
+
+    //TEMP
+    Biome ChooseBiome(float height, float temperature, float moisture)
+    {
+        return BiomeData.Instance.GetBiome(height, temperature, moisture);
+    }
 }

@@ -65,6 +65,10 @@ public class Inventory : MonoBehaviour
         PlaceItem temp = new PlaceItem(12, "Placer", 9, "apple");
         temp.Init();
         AddItem(temp);
+        AddItem(temp);
+        AddItem(temp);
+        AddItem(temp);
+
     }
 
     void Update()
@@ -79,7 +83,6 @@ public class Inventory : MonoBehaviour
 
                 if (activeItem.RemoveAfterUse)
                 {
-                    items[SelectedSlot].ExitSelected();
                     RemoveItem(SelectedSlot);
                 }
             }
@@ -99,9 +102,7 @@ public class Inventory : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            Debug.Log(SelectedSlot);
             updateSelectedSlot(SelectedSlot+1);
-            Debug.Log(SelectedSlot);
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
@@ -126,7 +127,7 @@ public class Inventory : MonoBehaviour
             {
                 ItemData data = slots[index.GetValueOrDefault()].transform.GetComponentInChildren<ItemData>();
                 data.amount++;
-                data.transform.GetComponentInChildren<Text>().text = (data.amount + 1).ToString();
+                data.UpdateAmountText();
                 return;
             }
         }
@@ -157,7 +158,7 @@ public class Inventory : MonoBehaviour
             {
                 ItemData data = slots[index.GetValueOrDefault()].transform.GetComponentInChildren<ItemData>();
                 data.amount++;
-                data.transform.GetComponentInChildren<Text>().text = (data.amount + 1).ToString();
+                data.UpdateAmountText();
                 return;
             }
         }
@@ -193,8 +194,19 @@ public class Inventory : MonoBehaviour
     {
         if (items[index].ID != -1)
         {
-            items[index] = new Item();
-            Destroy(slots[index].transform.GetChild(0).gameObject);
+            ItemData myItem = slots[SelectedSlot].transform.GetComponentInChildren<ItemData>();
+            Debug.Log(myItem.amount);
+            if (myItem.amount == 0)
+            {
+                items[SelectedSlot].ExitSelected();
+                items[index] = new Item();
+                Destroy(slots[index].transform.GetChild(0).gameObject);
+            }
+            else
+            {
+                myItem.amount--;
+                myItem.UpdateAmountText();
+            }
         }
     }
 

@@ -6,26 +6,30 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float speed = 2f;
+    Vector2 movement;
     Rigidbody2D rb;
 
-    float horiz;
-    float vert;
+    Animator animator;
 
-    // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        horiz = InputController.Instance.Horizontal.Value;
-        vert = InputController.Instance.Vertical.Value;
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+
+
+        animator.SetFloat("Horizontal", movement.x);
+        animator.SetFloat("Vertical", movement.y);
+        animator.SetFloat("Speed", movement.sqrMagnitude);
     }
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(horiz, vert).normalized * speed;
+        rb.MovePosition(rb.position + movement.normalized * speed * Time.fixedDeltaTime);
     }
 }

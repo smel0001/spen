@@ -19,24 +19,8 @@ public class Chunk
 
     public RuleTile GetTile(int x, int y)
     {
-        RuleTile ruleTile = Resources.Load<RuleTile>("Sprites/RuleTiles/DirtToLGrass");
-        switch (tiles[x, y].tileBiome)
-        {
-            case BiomeType.Forest:
-                ruleTile = Resources.Load<RuleTile>("Sprites/RuleTiles/DirtToLGrass");
-                break;
-            case BiomeType.Ocean:
-                ruleTile = Resources.Load<RuleTile>("Sprites/RuleTiles/WaterToGrass");
-                break;
-            case BiomeType.Desert:
-                ruleTile = Resources.Load<RuleTile>("Sprites/RuleTiles/WaterToGrass");
-                break;
-            case BiomeType.Mountain:
-                ruleTile = Resources.Load<RuleTile>("Sprites/RuleTiles/DirtToLGrass");
-                break;
-            case BiomeType.Edge:
-                break;
-        }
+        string slug = "Sprites/RuleTiles/" + tiles[x, y].tileBiome.TileSlug;
+        RuleTile ruleTile = Resources.Load<RuleTile>(slug);
 
         return ruleTile;
     }

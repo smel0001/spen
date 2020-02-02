@@ -1,0 +1,71 @@
+{
+    "Items": [
+        {
+            "ID": 0,
+            "Title": "Ocean",
+            "TileSlug": "Ocean",
+            "Keys": [
+                "99"
+            ]
+        },
+        {
+            "ID": 1,
+            "Title": "Tundra",
+            "TileSlug": "Tundra",
+            "Keys": [
+                "00",
+                "01",
+                "10",
+                "20",
+                "30",
+                "31"
+            ]
+        },
+        {
+            "ID": 2,
+            "Title": "Grass",
+            "TileSlug": "Grass",
+            "Keys": [
+                "02"
+            ]
+        },
+        {
+            "ID": 3,
+            "Title": "Desert",
+            "TileSlug": "Desert",
+            "Keys": [
+                "03"
+            ]
+        },
+        {
+            "ID": 4,
+            "Title": "Boreal Forest",
+            "TileSlug": "Boreal",
+            "Keys": [
+                "11",
+                "21",
+                "22"
+            ]
+        },
+        {
+            "ID": 5,
+            "Title": "Savanna",
+            "TileSlug": "Savanna",
+            "Keys": [
+                "12",
+                "13"
+            ]
+        },
+        {
+            "ID": 6,
+            "Title": "Rainforest",
+            "TileSlug": "Rainforest",
+            "Keys": [
+                "23",
+                "32",
+                "33"
+            ]
+        }
+        
+    ]
+}

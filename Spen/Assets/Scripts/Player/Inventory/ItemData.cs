@@ -101,4 +101,9 @@ IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerEnterHandler, IPoi
     {
         tooltip.Deactivate();
     }
+
+    public void UpdateAmountText()
+    {
+        GetComponentInChildren<Text>().text = (this.amount + 1).ToString();
+    }
 }

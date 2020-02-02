@@ -33,7 +33,7 @@ public class Item
         this.ID = id;
         this.Title = title;
         this.Value = value;
-        this.Stackable = false;
+        this.Stackable = true;
         this.Slug = slug;
     }
 
@@ -96,7 +96,6 @@ public class UseItem : Item
     //Equivalent of on right click
     public virtual void Activate()
     {
-        Debug.Log("She works");
     }
 }
 
@@ -112,7 +111,6 @@ public class PlaceItem : UseItem
 
     public PlaceItem(int id, string title, int value, string slug) : base(id, title, value, slug)
     {
-        Debug.Log("Make Use");
         cursor = GameObject.Find("UI/Canvas/Cursor").GetComponent<Cursor>();
     }
 
@@ -125,9 +123,8 @@ public class PlaceItem : UseItem
 
     protected override void ExtendInit()
     {
-        PrefabSlug = "chikin";
+        PrefabSlug = "Sunflower";
         this.prefab = Resources.Load<GameObject>("Prefabs/" + PrefabSlug);
-        Debug.Log("?");
     }
 
     public override void EnterSelected() 
