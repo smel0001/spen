@@ -52,7 +52,7 @@ public static class NoiseMap
     //Used for static noise like heat maps
     public static float[,] GenerateUniformNoiseMap(int mapWidth, int mapHeight, float centerY, int maxDistanceY, int offsetY)
     {
-        float[,] noiseMap = new float[mapHeight, mapWidth];
+        float[,] noiseMap = new float[mapWidth, mapHeight];
 
         for (int yIndex = 0; yIndex < mapHeight; yIndex++)
         {

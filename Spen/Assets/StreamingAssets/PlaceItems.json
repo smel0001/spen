@@ -1,0 +1,24 @@
+{
+    "Items" : [
+        {
+            "ID": 4,
+            "Title": "Sunflower Seed",
+            "Value": 1,
+            "Stackable": true,
+            "Slug": "sunflower_seeds",
+            "RemoveAfterUse": true,
+            "PlaceOnTag": "Soil",
+            "PrefabSlug": "sunflower"
+        },
+        {
+            "ID": 5,
+            "Title": "Tool",
+            "Value": 1,
+            "Stackable": false,
+            "Slug": "Ttool",
+            "RemoveAfterUse": false,
+            "PlaceOnTag": "",
+            "PrefabSlug": "Soil"
+        }
+    ]
+}

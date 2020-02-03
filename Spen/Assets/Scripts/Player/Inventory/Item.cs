@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 
 /*
 Options for Item sub-classes:
@@ -41,6 +42,7 @@ public class Item
     {
         //Core Init
         this.Icon = Resources.Load<Sprite>("Sprites/Items/" + Slug);
+        WorldItem = Resources.Load<GameObject>("Prefabs/WorldItem");
         ExtendInit();
     }
 
@@ -57,10 +59,11 @@ public class Item
     public virtual void WhileSelected() {}
     public virtual void ExitSelected() {}
 
-    public void CreateInWorld()
+    public void CreateInWorld(Vector3 pos)
     {
-        WorldItem = new GameObject(this.Title);
-        SpriteRenderer sr = WorldItem.AddComponent<SpriteRenderer>() as SpriteRenderer;
+        GameObject myObj = Object.Instantiate(WorldItem, pos, Quaternion.identity);
+        SpriteRenderer sr = myObj.GetComponent<SpriteRenderer>();
+        myObj.GetComponent<WorldItem>().itemId = this.ID;
         sr.sprite = this.Icon;
     }
 
@@ -75,6 +78,7 @@ public class EquipItem : Item
     //Equip stats
 }
 
+[System.Serializable]
 public class UseItem : Item
 {
     //Will probably need subclasses
@@ -87,20 +91,22 @@ public class UseItem : Item
     public bool RemoveAfterUse = true;
 
     public UseItem(int id, string title, int value, string slug) : base(id, title, value, slug)
-    {
-    }
+    {}
 
     protected override void ExtendInit()
-    { }
+    {}
 
     //Equivalent of on right click
-    public virtual void Activate()
+    public virtual bool Activate()
     {
+        return false;
     }
 }
 
+[System.Serializable]
 public class PlaceItem : UseItem
 {
+    public string PlaceOnTag;
     public string PrefabSlug;
     private GameObject prefab;
 
@@ -110,21 +116,51 @@ public class PlaceItem : UseItem
     //Icon image for indicator
 
     public PlaceItem(int id, string title, int value, string slug) : base(id, title, value, slug)
+    {}
+
+    public override bool Activate()
     {
-        cursor = GameObject.Find("UI/Canvas/Cursor").GetComponent<Cursor>();
+        if (PlaceOnTag != "")
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+            if (hit)
+            {
+                if (hit.transform.tag == PlaceOnTag)
+                {
+                    PlaceInWorld();
+                    return true;
+                }
+                Debug.Log("no match");
+            }
+            Debug.Log("no hit");
+            return false;
+        }
+        else
+        {
+            Debug.Log("no tag");
+            PlaceInWorld();
+            return true;
+        }
     }
 
-    public override void Activate()
+    private void PlaceInWorld()
     {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0f;
-        Object.Instantiate(prefab, pos, Quaternion.identity);
+        Tilemap map = GameObject.Find("Deco").GetComponent<Tilemap>();
+
+        Vector3 cellPos = map.WorldToCell(pos);
+        //offset might be jank idk
+        cellPos += new Vector3(0.5f, 0.5f, 0);
+
+        Object.Instantiate(prefab, cellPos, Quaternion.identity);
     }
 
     protected override void ExtendInit()
     {
-        PrefabSlug = "Sunflower";
         this.prefab = Resources.Load<GameObject>("Prefabs/" + PrefabSlug);
+        cursor = GameObject.Find("UI/Canvas/Cursor").GetComponent<Cursor>();
     }
 
     public override void EnterSelected() 

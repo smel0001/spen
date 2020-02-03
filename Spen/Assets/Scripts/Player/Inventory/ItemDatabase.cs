@@ -21,6 +21,7 @@ public class ItemDatabase : MonoBehaviour
 
     private List<Item> database = new List<Item>();
     private static string itemDatabaseFileName = "/StreamingAssets/Items.json";
+    private static string placeItemDatabaseFileName = "/StreamingAssets/PlaceItems.json";
 
 
     void Start()
@@ -38,6 +39,20 @@ public class ItemDatabase : MonoBehaviour
             items[i].Init();
             database.Add(items[i]);
         }
+
+        string placeFilePath = Application.dataPath + placeItemDatabaseFileName;
+        PlaceItem[] placeItems = JsonHelper.FromJson<PlaceItem>(File.ReadAllText(placeFilePath));
+        for (int i = 0; i < placeItems.Length; i++)
+        {
+            //TODO move item init to inside the FromJson call
+            placeItems[i].Init();
+            database.Add(placeItems[i]);
+        }
+
+        Debug.Log(database[database.Count - 1].Title);
+
+
+
     }
 
     //Debug/Dev Function

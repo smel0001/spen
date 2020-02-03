@@ -62,12 +62,6 @@ public class BiomeData : MonoBehaviour
         {
             terrain.Add(terrainArray[i]);
         }
-
-        for (int i = 0; i < terrain.Count; i++)
-        {
-            Debug.Log(terrain[i].Title);
-        }
-
     }
 
     void LoadBiomeCategoryData()
@@ -154,9 +148,6 @@ public class BiomeData : MonoBehaviour
             }
         }
 
-        Debug.Log(temperature);
-        Debug.Log(moisture);
-        Debug.Log(key);
         return biomeDict[key];
     }
 }

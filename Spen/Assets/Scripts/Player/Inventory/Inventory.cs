@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*
+ * TODO: Split UI from inv functionality and place UI in a seperate script
+ * or don't
+ * goal is to have the inv with the player 
+ * 
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,15 +68,12 @@ public class Inventory : MonoBehaviour
         AddItem(0);
         AddItem(0);
 
-        PlaceItem temp = new PlaceItem(12, "Placer", 9, "apple");
-        temp.Init();
-        AddItem(temp);
-        AddItem(temp);
-        AddItem(temp);
-        AddItem(temp);
-
+        AddItem(3);
+        AddItem(4);
+        AddItem(5);
     }
 
+    //Mostly temp
     void Update()
     {
 
@@ -79,11 +82,32 @@ public class Inventory : MonoBehaviour
             if (items[SelectedSlot] as UseItem != null)
             {
                 UseItem activeItem = (UseItem)items[SelectedSlot];
-                activeItem.Activate();
-
-                if (activeItem.RemoveAfterUse)
+                if (activeItem.Activate())
                 {
-                    RemoveItem(SelectedSlot);
+                    if (activeItem.RemoveAfterUse)
+                    {
+                        RemoveItem(SelectedSlot);
+                    }
+                }
+            }
+            else
+            {
+                //raytest
+                //All this has to move to like player or something
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+                if (hit)
+                {
+                    if (hit.collider != null)
+                    {
+                        Debug.Log(hit.transform.gameObject.name);
+                        GameObject obj = hit.transform.gameObject;
+                        if (obj.tag == "Clickable")
+                        {
+                            obj.GetComponent<Plant>().OnCast();
+                            //Need a series of classes for objects in world, with on clicked() etc.
+                        }
+                    }
                 }
             }
         }
@@ -119,7 +143,6 @@ public class Inventory : MonoBehaviour
     public void AddItem(int id)
     {
         Item itemToAdd = itemData.FetchItemById(id);
-
         if (itemToAdd.Stackable)
         {
             int? index = FindItemIndex(id);
@@ -183,7 +206,8 @@ public class Inventory : MonoBehaviour
     {
         if (items[index].ID != -1)
         {
-            items[index].CreateInWorld();
+            //TEMP
+            items[index].CreateInWorld(Vector3.zero);
             //maybe move to some world list
             //set to player pos
             RemoveItem(index);

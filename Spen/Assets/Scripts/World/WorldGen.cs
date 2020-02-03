@@ -36,7 +36,7 @@ public class WorldGen : MonoBehaviour
     public NoiseMap.Wave[] moistureWaves;
 
 
-    public static int WorldSize = 64;
+    public static int WorldSize = 32;
     private int numChunks = WorldSize / Chunk.size;
 
     //not used yet
@@ -60,13 +60,6 @@ public class WorldGen : MonoBehaviour
     void Start()
     {
         //Biome Generation
-        // - Biome just creates map, doesn't load real tiles
-
-        //maybe biome can have a big list of coords for every tile in it
-        //this might be helpful for other random generation?
-
-        //I think having the biome class manage it's own tile generation is cleaner, each can have extra rules etc.
-
         //maybe use a features/structures.json (or just classes) that can be placed in a final pass
             
         //HEIGHT
@@ -107,8 +100,7 @@ public class WorldGen : MonoBehaviour
         {
             for (int j = 0; j < WorldSize; j++)
             {
-                Biome chosenBio = ChooseBiome(height[i, j], heatMap[i, j], moistureMap[i, j]);
-                //Biome chosenBio = ChooseBiome(height[i, j], 1, 0);
+                Biome chosenBio = BiomeData.Instance.GetBiome(height[i, j], heatMap[i, j], moistureMap[i, j]);
                 generatedtiles[i, j] = new GenTile(i, j, chosenBio);
             }
         }
@@ -142,6 +134,10 @@ public class WorldGen : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         LoadAllChunks();
     }
+
+    //need to rename
+    void GenerateBlock()
+    { }
 
     void LoadChunk(int x, int y)
     {
@@ -219,10 +215,4 @@ public class WorldGen : MonoBehaviour
          //    chnk.Tick();
          //}
      }
-
-    //TEMP
-    Biome ChooseBiome(float height, float temperature, float moisture)
-    {
-        return BiomeData.Instance.GetBiome(height, temperature, moisture);
-    }
 }

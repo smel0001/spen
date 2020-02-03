@@ -20,6 +20,13 @@
             "Value": 1,
             "Stackable": true,
             "Slug": "lemon"
+        },
+        {
+            "ID": 3,
+            "Title": "Sunflower",
+            "Value": 1,
+            "Stackable": true,
+            "Slug": "sunflower"
         }
     ]
 }
