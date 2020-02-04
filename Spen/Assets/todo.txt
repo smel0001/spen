@@ -1,0 +1,13 @@
+Player Controller:
+    - Basic Shooting (+ Item System Implementation)
+    - Rolling
+    - Better Moving
+    - Stats
+
+Items:
+    - Equip Items
+    - Consumables
+
+Tools - 
+    i.e.    soil needs to be able to check what tile it's being placed on.
+            Potentially soil becomes a tile.
