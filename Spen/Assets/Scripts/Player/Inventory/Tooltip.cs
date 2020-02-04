@@ -5,31 +5,22 @@ using UnityEngine.UI;
 
 public class Tooltip : MonoBehaviour
 {
-    private string itemString;
-    private GameObject tooltip;
-
-    void Start()
-    {
-        tooltip = GameObject.Find("Tooltip");
-        tooltip.SetActive(false);
-    }
-
     void Update()
     {
-        if (tooltip.activeSelf)
+        if (gameObject.activeSelf)
         {
-            tooltip.transform.position = Input.mousePosition;
+            transform.position = Input.mousePosition;
         }
     }
 
     public void Activate(Item item)
     {
-        tooltip.GetComponentInChildren<Text>().text = item.DataString();
-        tooltip.SetActive(true);
+        GetComponentInChildren<Text>().text = item.DataString();
+        transform.gameObject.SetActive(true);
     }
 
     public void Deactivate()
     {
-        tooltip.SetActive(false);
+        transform.gameObject.SetActive(false);
     }
 }

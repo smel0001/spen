@@ -12,7 +12,7 @@ public class WorldItem : MonoBehaviour
         {
             //Add to inv
             //Super jank inv should be attached to player but for now we'll survive
-            GameObject.Find("Inv").GetComponent<Inventory>().AddItem(itemId);
+            collision.GetComponent<Inventory>().AddItem(itemId);
             Destroy(gameObject);
         }
     }

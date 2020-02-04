@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 3006837677299532018}
   - component: {fileID: 4585435885028785057}
   m_Layer: 0
-  m_Name: Sunflower
+  m_Name: Tomato
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,9 +89,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GrowTime: 1
-  HarvestItemID: 3
-  SeedItemId: 4
-  NumStages: 5
+  HarvestItemID: 7
+  SeedItemId: 6
+  NumStages: 4
 --- !u!61 &4585435885028785057
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -128,7 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 410454868025930203}
   - component: {fileID: 3357192489658413091}
-  - component: {fileID: 5580673647250889653}
+  - component: {fileID: 933824133277382434}
   m_Layer: 0
   m_Name: Crop_Spritesheet_114
   m_TagString: Untagged
@@ -189,7 +189,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9125837625378335052, guid: 65ebcb14c632d3a458f982f5c03af7df,
+  m_Sprite: {fileID: 3376106324329366409, guid: 65ebcb14c632d3a458f982f5c03af7df,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -201,7 +201,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &5580673647250889653
+--- !u!95 &933824133277382434
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -211,7 +211,7 @@ Animator:
   m_GameObject: {fileID: 6642212702158917199}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 31690463499ac4f4b90a42c5c59ebccf, type: 2}
+  m_Controller: {fileID: 9100000, guid: efe706511c4cd12459fec6b674a1b1ae, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

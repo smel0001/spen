@@ -14,19 +14,20 @@ public class Inventory : MonoBehaviour
     //UI
     GameObject inventoryPanel;
     GameObject slotPanel;
-
-    Tooltip tooltip;
+    
+    [System.NonSerialized]
+    public Tooltip tooltip;
 
     GameObject toolbarPanel;
     GameObject toolbarSlotPanel;
 
-    public GameObject inventorySlot;
-    public GameObject inventoryItem;
+    //UI Prefabs
+    private GameObject inventorySlot;
+    private GameObject inventoryItem;
 
-    //
-    ItemDatabase itemData;
     private int slotAmount = 36;
     private int toolbarSlotAmount = 9;
+
     public List<Item> items = new List<Item>();
     public List<GameObject> slots = new List<GameObject>();
 
@@ -34,15 +35,18 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        //TODO instance ItemDatabase
-        itemData =  GetComponent<ItemDatabase>();
         inventoryPanel = GameObject.Find("InventoryPanel");
         slotPanel = inventoryPanel.transform.Find("SlotPanel").gameObject;
         inventoryPanel.SetActive(false);
-        tooltip = GetComponent<Tooltip>();
+
+        tooltip = GameObject.Find("Tooltip").GetComponent<Tooltip>();
+        tooltip.Deactivate();
 
         toolbarPanel = GameObject.Find("ToolbarPanel");
         toolbarSlotPanel = toolbarPanel.transform.Find("ToolbarSlots").gameObject;
+
+        inventorySlot = Resources.Load<GameObject>("Prefabs/UI/Slot");
+        inventoryItem = Resources.Load<GameObject>("Prefabs/UI/Item");
 
         for (int i = 0; i < toolbarSlotAmount; i++)
         {
@@ -60,16 +64,13 @@ public class Inventory : MonoBehaviour
 
         updateSelectedSlot(0);
 
-        AddItem(0);
-        AddItem(0);
-        AddItem(2);
-        AddItem(1);
-        AddItem(0);
-        AddItem(0);
-        AddItem(0);
 
-        AddItem(3);
-        AddItem(4);
+        //Load saved items, can just be a list of ids and amounts somewhere (for now)
+        AddItem(6);
+        AddItem(6);
+        AddItem(6);
+        AddItem(6);
+        AddItem(6);
         AddItem(5);
     }
 
@@ -142,7 +143,7 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(int id)
     {
-        Item itemToAdd = itemData.FetchItemById(id);
+        Item itemToAdd = ItemDatabase.instance.FetchItemById(id);
         if (itemToAdd.Stackable)
         {
             int? index = FindItemIndex(id);
@@ -155,15 +156,15 @@ public class Inventory : MonoBehaviour
             }
         }
 
-
         for (int i = 0; i < items.Count; i++)
         {
             if (items[i].ID == -1)
             {
                 items[i] = itemToAdd;
                 GameObject itemObj = Instantiate(inventoryItem, slots[i].transform);
-                itemObj.GetComponent<ItemData>().item = itemToAdd;
-                itemObj.GetComponent<ItemData>().slotIndex = i;
+                ItemData objItemData = itemObj.GetComponent<ItemData>();
+                objItemData.item = itemToAdd;
+                objItemData.slotIndex = i;
                 itemObj.GetComponent<Image>().sprite = itemToAdd.Icon;
                 itemObj.name = itemToAdd.Title;
                 break;

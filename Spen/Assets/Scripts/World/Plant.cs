@@ -10,7 +10,7 @@ public class Plant : MonoBehaviour
     //Titles?
     public int HarvestItemID = 3;
     public int SeedItemId = 4;
-
+    public int NumStages = 4;
     private int stage = 0;
     private float timer;
     private bool ticking = true;
@@ -23,8 +23,8 @@ public class Plant : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        harvestDrop = ItemDatabase.instance.FetchItemById(3);
-        seedDrop = ItemDatabase.instance.FetchItemById(4);
+        harvestDrop = ItemDatabase.instance.FetchItemById(HarvestItemID);
+        seedDrop = ItemDatabase.instance.FetchItemById(SeedItemId);
         timer = GrowTime;
         animator = GetComponentInChildren<Animator>();
     }
@@ -39,7 +39,7 @@ public class Plant : MonoBehaviour
                 timer = GrowTime;
                 stage++;
                 animator.SetInteger("Stage", stage);
-                if (stage > 4)
+                if (stage > NumStages - 1)
                 {
                     ticking = false;
                     tag = "Clickable";
@@ -51,7 +51,7 @@ public class Plant : MonoBehaviour
 
     public void OnCast()
     {
-        if (stage > 4)
+        if (stage > NumStages - 1)
         {
             //Drop a flower and some seeds
             harvestDrop.CreateInWorld(this.transform.position);

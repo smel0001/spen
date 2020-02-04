@@ -18,17 +18,18 @@ IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerEnterHandler, IPoi
     public int slotIndex;
 
     private Inventory inv;
+
     private Vector2 offset;
 
-    private Tooltip tooltip;
-
     private GameObject canvas;
+    private Tooltip tooltip;
 
     void Start()
     {
-        inv = GameObject.Find("Inv").GetComponent<Inventory>();
+        inv = GameObject.Find("Player").GetComponent<Inventory>();
         canvas = GameObject.Find("Canvas");
-        tooltip = inv.GetComponent<Tooltip>();
+
+        tooltip = inv.tooltip;
     }
 
     public void OnPointerDown(PointerEventData eventData)

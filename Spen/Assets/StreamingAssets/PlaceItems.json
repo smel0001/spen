@@ -19,6 +19,16 @@
             "RemoveAfterUse": false,
             "PlaceOnTag": "",
             "PrefabSlug": "Soil"
+        },
+        {
+            "ID": 6,
+            "Title": "Tomato Seed",
+            "Value": 1,
+            "Stackable": true,
+            "Slug": "tomato_seeds",
+            "RemoveAfterUse": true,
+            "PlaceOnTag": "Soil",
+            "PrefabSlug": "tomato"
         }
     ]
 }

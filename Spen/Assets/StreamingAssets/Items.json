@@ -27,6 +27,13 @@
             "Value": 1,
             "Stackable": true,
             "Slug": "sunflower"
+        },
+        {
+            "ID": 7,
+            "Title": "Tomato",
+            "Value": 1,
+            "Stackable": true,
+            "Slug": "tomato"
         }
     ]
 }
