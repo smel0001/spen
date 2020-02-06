@@ -9,7 +9,6 @@ public class Chunk
     public Vector2Int coords;
     GenTile[,] tiles;
     //Biome?
-    public BiomeType ChunkBiome;
 
     public Chunk(int _x, int _y, GenTile[,] map)
     {

@@ -120,28 +120,26 @@ public class PlaceItem : UseItem
 
     public override bool Activate()
     {
-        if (PlaceOnTag != "")
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+        if (hit)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
-            if (hit)
+            if (hit.transform.tag == PlaceOnTag)
             {
-                if (hit.transform.tag == PlaceOnTag)
-                {
-                    PlaceInWorld();
-                    return true;
-                }
-                Debug.Log("no match");
+                PlaceInWorld();
+                return true;
             }
-            Debug.Log("no hit");
-            return false;
+            else
+            {
+                return false;
+            }
         }
-        else
+        else if (PlaceOnTag == "")
         {
-            Debug.Log("no tag");
             PlaceInWorld();
             return true;
         }
+        return false;
     }
 
     private void PlaceInWorld()

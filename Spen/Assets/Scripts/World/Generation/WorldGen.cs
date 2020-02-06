@@ -35,12 +35,8 @@ public class WorldGen : MonoBehaviour
     private AnimationCurve moistureCurve;
     public NoiseMap.Wave[] moistureWaves;
 
-
     public static int WorldSize = 32;
     private int numChunks = WorldSize / Chunk.size;
-
-    //not used yet
-    private int numBiomes = 4;
 
     private Dictionary<System.Tuple<int, int>, GenTile[,]> fullchunkmap;
     private Dictionary<System.Tuple<int,int>,Chunk> loadedChunks;
@@ -61,11 +57,11 @@ public class WorldGen : MonoBehaviour
     {
         //Biome Generation
         //maybe use a features/structures.json (or just classes) that can be placed in a final pass
-            
-        //HEIGHT
+           
+        //Pass 1: HEIGHT
         float[,] height = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, levelScale, 0, 0, heightWaves);
 
-        //HEAT
+        //Pass 2: HEAT
         float[,] temperature = NoiseMap.GenerateUniformNoiseMap(WorldSize, WorldSize, WorldSize / 2, WorldSize/2, 0);
         float[,] randomTemperature = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, levelScale, WorldSize, 0, temperatureWaves);
         float[,] heatMap = new float[WorldSize, WorldSize];
@@ -74,16 +70,14 @@ public class WorldGen : MonoBehaviour
         {
             for (int xIndex = 0; xIndex < WorldSize; xIndex++)
             {
-                // mix both heat maps together by multiplying their values
                 heatMap[xIndex, yIndex] = temperature[xIndex, yIndex] * randomTemperature[xIndex, yIndex];
-                // makes higher regions colder, by adding the height value to the heat map
                 heatMap[xIndex, yIndex] += temperatureCurve.Evaluate(height[xIndex, yIndex]) * heatMap[xIndex, yIndex];
 
                 heatMap[xIndex, yIndex] = Mathf.Clamp(heatMap[xIndex, yIndex], 0f, 1f);
             }
         }
 
-        //MOISTURE
+        //Pass 3: MOISTURE
         float[,] moistureMap = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, levelScale, 0, 0, moistureWaves);
         for (int yIndex = 0; yIndex < WorldSize; yIndex++)
         {
@@ -95,6 +89,7 @@ public class WorldGen : MonoBehaviour
             }
         }
 
+        //BASE TILES
         GenTile[,] generatedtiles = new GenTile[WorldSize, WorldSize];
         for (int i = 0; i < WorldSize; i++)
         {
@@ -105,9 +100,9 @@ public class WorldGen : MonoBehaviour
             }
         }
 
+
         //Generate
         //List<GenTile[,]> chunkMapList = new List<GenTile[,]>();
-
         for (int i = 0; i < numChunks; i++)
         {
             for (int j = 0; j < numChunks; j++)
@@ -206,13 +201,4 @@ public class WorldGen : MonoBehaviour
             LoadChunk(playerX, playerY);
         }
     }
-
-    void Update()
-     {
-         //Update loaded chunks
-         //foreach (Chunk chnk in loadedChunks)
-         //{
-         //    chnk.Tick();
-         //}
-     }
 }
