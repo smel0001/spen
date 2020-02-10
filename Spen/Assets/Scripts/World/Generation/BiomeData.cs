@@ -1,27 +1,26 @@
-﻿using System.Collections;
+﻿/*
+Singleton class to load and store biome data.
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class BiomeData : MonoBehaviour
+public sealed class BiomeData
 {
-    #region Instance
-    public static BiomeData Instance;
+    #region Singleton
+    private static readonly BiomeData t_Instance = new BiomeData();
 
-    void Awake()
+    static BiomeData()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
+        Debug.Log("static runs");
+        Instance.LoadAll();
+    }
+    //private BiomeData(){}
 
-        LoadTerrainData();
-        LoadBiomeCategoryData();
-        LoadBiomeData();
+    public static BiomeData Instance
+    {
+        get {return t_Instance;}
     }
     #endregion
 
@@ -53,6 +52,14 @@ public class BiomeData : MonoBehaviour
     private static string terrainDataFileName = "/StreamingAssets/Terrain.json";
     private static string biomeCategoryDataFileName = "/StreamingAssets/BiomeCategories.json";
     private static string biomeDataFileName = "/StreamingAssets/Biomes.json";
+
+
+    public void LoadAll()
+    {
+        LoadTerrainData();
+        LoadBiomeCategoryData();
+        LoadBiomeData();
+    }
 
     void LoadTerrainData()
     {

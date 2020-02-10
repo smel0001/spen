@@ -11,3 +11,21 @@ Items:
 Tools - 
     i.e.    soil needs to be able to check what tile it's being placed on.
             Potentially soil becomes a tile.
+World:
+	- Object Generation
+	- World Tiers
+	- Chunk Loading
+
+
+ridged multifractal noise - underground layer cave gen
+final object generation pass
+storage? - either just saved modified chunks or save changes and rebuild generation
+
+
+Notes on the way the world works:
+- Primary world tier is the outside overworld
+	Tile maps make up the layers of this world i.e. base tiles, object tiles e.t.c
+- Other world tiers exist: indoors, underground
+**Options:
+	New scene for each tier (i like this? Make more pieces)
+	Player inventory and other stats need to persist through scene loads so save then load

@@ -21,7 +21,7 @@ public static class NoiseMap
     public static float[,] GeneratePerlinNoiseMap(int mapWidth, int mapHeight, float scale, float offsetX, float offsetY, Wave[] waves)
     {
         // create an empty noise map with the mapDepth and mapWidth coordinates
-        float[,] noiseMap = new float[mapHeight, mapWidth];
+        float[,] noiseMap = new float[mapWidth, mapHeight];
 
         for (int yIndex = 0; yIndex < mapHeight; yIndex++)
         {
@@ -66,4 +66,21 @@ public static class NoiseMap
         return noiseMap;
     }
 
+    public static float[,] GenerateCutoffPerlinNoiseMap(int mapWidth, int mapHeight, float scale, float offsetX, float offsetY, Wave[] waves, float threshold)
+    {
+        float[,] noiseMap = GeneratePerlinNoiseMap(mapWidth, mapHeight, scale, offsetX, offsetY, waves);
+
+        for (int xIndex = 0; xIndex < mapWidth; xIndex++)
+        {
+            for (int yIndex = 0; yIndex < mapHeight; yIndex++)
+            {
+                if (noiseMap[xIndex, yIndex] < threshold)
+                {
+                    noiseMap[xIndex, yIndex] = 0f;
+                }
+            }
+        }
+
+        return noiseMap;
+    }
 }

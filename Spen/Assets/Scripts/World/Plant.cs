@@ -23,8 +23,8 @@ public class Plant : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        harvestDrop = ItemDatabase.instance.FetchItemById(HarvestItemID);
-        seedDrop = ItemDatabase.instance.FetchItemById(SeedItemId);
+        harvestDrop = ItemDatabase.Instance.FetchItemById(HarvestItemID);
+        seedDrop = ItemDatabase.Instance.FetchItemById(SeedItemId);
         timer = GrowTime;
         animator = GetComponentInChildren<Animator>();
     }

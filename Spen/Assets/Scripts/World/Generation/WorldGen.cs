@@ -35,6 +35,8 @@ public class WorldGen : MonoBehaviour
     private AnimationCurve moistureCurve;
     public NoiseMap.Wave[] moistureWaves;
 
+    public NoiseMap.Wave[] caveWaves;
+
     public static int WorldSize = 32;
     private int numChunks = WorldSize / Chunk.size;
 
@@ -55,13 +57,22 @@ public class WorldGen : MonoBehaviour
 
     void Start()
     {
+        //Overworld Generation
+        #region Biome Generation
         //Biome Generation
-        //maybe use a features/structures.json (or just classes) that can be placed in a final pass
+        //Calculates each tiles biome values for the entire world
+
+        //Options:
+        // World can be re-created using seeds only on load
+        // The big float map could be saved and then manually loaded? - not sure how much more effective this will be than doing simple math of perlin noise maps
+        // ?
            
-        //Pass 1: HEIGHT
+        //Value 1: HEIGHT
+        GenerateOverworldBlock();
+
         float[,] height = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, levelScale, 0, 0, heightWaves);
 
-        //Pass 2: HEAT
+        //Value 2: HEAT
         float[,] temperature = NoiseMap.GenerateUniformNoiseMap(WorldSize, WorldSize, WorldSize / 2, WorldSize/2, 0);
         float[,] randomTemperature = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, levelScale, WorldSize, 0, temperatureWaves);
         float[,] heatMap = new float[WorldSize, WorldSize];
@@ -77,7 +88,7 @@ public class WorldGen : MonoBehaviour
             }
         }
 
-        //Pass 3: MOISTURE
+        //Value 3: MOISTURE
         float[,] moistureMap = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, levelScale, 0, 0, moistureWaves);
         for (int yIndex = 0; yIndex < WorldSize; yIndex++)
         {
@@ -89,7 +100,7 @@ public class WorldGen : MonoBehaviour
             }
         }
 
-        //BASE TILES
+        //Fill placeholder tile map
         GenTile[,] generatedtiles = new GenTile[WorldSize, WorldSize];
         for (int i = 0; i < WorldSize; i++)
         {
@@ -99,10 +110,18 @@ public class WorldGen : MonoBehaviour
                 generatedtiles[i, j] = new GenTile(i, j, chosenBio);
             }
         }
+        #endregion
+        #region Feature Generation
+        //Feature Generation
+        //Apply features to biome tiles
+        // e.g. village, well, etc.
+        #endregion
+
+        //Other Tiers?
+        //float[,] caveMap = GenerateCaveBlock();
 
 
         //Generate
-        //List<GenTile[,]> chunkMapList = new List<GenTile[,]>();
         for (int i = 0; i < numChunks; i++)
         {
             for (int j = 0; j < numChunks; j++)
@@ -131,8 +150,16 @@ public class WorldGen : MonoBehaviour
     }
 
     //need to rename
-    void GenerateBlock()
+    void GenerateOverworldBlock()
     { }
+
+    float[,] GenerateCaveBlock()
+    {
+        //Ridged multifractal noise
+        float[,] caves = NoiseMap.GenerateCutoffPerlinNoiseMap(WorldSize, WorldSize, 8, 0, 0, caveWaves, 0.6f);
+        return caves;
+    }
+
 
     void LoadChunk(int x, int y)
     {
@@ -163,18 +190,6 @@ public class WorldGen : MonoBehaviour
         }
         loadedChunks.Remove(chunktuple);
     }
-
-    /* 
-     * 3. Chunk
-     * 4. Tiles
-     * 5.       Chunk loading  <----
-     * 6. Biome logic behind chunks 
-     * 
-     * Chunks are either:
-     * an actual tilemap (i.e. several tilemaps)
-     * a sub data structure of tilemap (collection of tiles that fill the tilemap) <- leaning towards this
-     */
-
 
     void LoadAllChunks()
     {

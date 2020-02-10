@@ -3,31 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-public class ItemDatabase : MonoBehaviour
+public sealed class ItemDatabase
 {
-    public static ItemDatabase instance;
+    #region Singleton
+    private static readonly ItemDatabase t_Instance = new ItemDatabase();
 
-    void Awake()
+    static ItemDatabase()
     {
-        if (instance == null) {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
+        Instance.LoadItemDatabase();
     }
+    //private BiomeData(){}
 
+    public static ItemDatabase Instance
+    {
+        get {return t_Instance;}
+    }
+    #endregion
 
     private List<Item> database = new List<Item>();
     private static string itemDatabaseFileName = "/StreamingAssets/Items.json";
     private static string placeItemDatabaseFileName = "/StreamingAssets/PlaceItems.json";
-
-
-    void Start()
-    {
-        LoadItemDatabase();
-    }
 
     void LoadItemDatabase()
     {
@@ -48,11 +43,6 @@ public class ItemDatabase : MonoBehaviour
             placeItems[i].Init();
             database.Add(placeItems[i]);
         }
-
-        Debug.Log(database[database.Count - 1].Title);
-
-
-
     }
 
     //Debug/Dev Function

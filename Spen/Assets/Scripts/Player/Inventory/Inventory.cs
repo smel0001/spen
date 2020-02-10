@@ -143,7 +143,7 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(int id)
     {
-        Item itemToAdd = ItemDatabase.instance.FetchItemById(id);
+        Item itemToAdd = ItemDatabase.Instance.FetchItemById(id);
         if (itemToAdd.Stackable)
         {
             int? index = FindItemIndex(id);
