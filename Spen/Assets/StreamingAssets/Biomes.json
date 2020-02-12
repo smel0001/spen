@@ -6,7 +6,8 @@
             "TileSlug": "Ocean",
             "Keys": [
                 "99"
-            ]
+            ],
+            "SpawnTrees": false
         },
         {
             "ID": 1,
@@ -19,7 +20,8 @@
                 "20",
                 "30",
                 "31"
-            ]
+            ],
+            "SpawnTrees": false
         },
         {
             "ID": 2,
@@ -27,7 +29,8 @@
             "TileSlug": "Grass",
             "Keys": [
                 "02"
-            ]
+            ],
+            "SpawnTrees": true
         },
         {
             "ID": 3,
@@ -35,7 +38,8 @@
             "TileSlug": "Desert",
             "Keys": [
                 "03"
-            ]
+            ],
+            "SpawnTrees": false
         },
         {
             "ID": 4,
@@ -45,7 +49,8 @@
                 "11",
                 "21",
                 "22"
-            ]
+            ],
+            "SpawnTrees": true
         },
         {
             "ID": 5,
@@ -54,7 +59,8 @@
             "Keys": [
                 "12",
                 "13"
-            ]
+            ],
+            "SpawnTrees": true
         },
         {
             "ID": 6,
@@ -64,8 +70,8 @@
                 "23",
                 "32",
                 "33"
-            ]
+            ],
+            "SpawnTrees": true
         }
-        
     ]
 }

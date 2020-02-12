@@ -37,17 +37,14 @@ public class WorldGen : MonoBehaviour
 
     public NoiseMap.Wave[] caveWaves;
 
-    public static int WorldSize = 32;
+    public static int WorldSize = 64;
     private int numChunks = WorldSize / Chunk.size;
 
     private Dictionary<System.Tuple<int, int>, GenTile[,]> fullchunkmap;
     private Dictionary<System.Tuple<int,int>,Chunk> loadedChunks;
 
-    ///TEMP
-    GameObject player;
-    System.Tuple<int, int> curChunk;
-    int curx = 0;
-    int cury = 0;
+    //temp
+    public GameObject tree;
 
     void Awake()
     {
@@ -113,6 +110,24 @@ public class WorldGen : MonoBehaviour
         #endregion
         #region Feature Generation
         //Feature Generation
+
+        //Tree generation
+        float[,] trees = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, 1.1f, 0, 0, NoiseMap.DefaultWaves);
+        for (int i = 0; i < WorldSize; i++)
+        {
+            for (int j = 0; j < WorldSize; j++)
+            {
+                if (generatedtiles[i,j].tileBiome.SpawnTrees)
+                {
+                    if (trees[i,j] >= 0.8)
+                    {
+                        Instantiate(generatedtiles[i,j].tileBiome.Treefab, new Vector3(i+0.5f,j,0), Quaternion.identity);
+                    }
+                }
+            }
+        }
+
+
         //Apply features to biome tiles
         // e.g. village, well, etc.
         #endregion
@@ -143,10 +158,14 @@ public class WorldGen : MonoBehaviour
         //Save all chunks to disk? i.e. out of ram?
         //Load current nearby chunks
 
-
-        ///TEMP
-        player = GameObject.FindWithTag("Player");
         LoadAllChunks();
+
+
+
+        //Non terrain features pass
+        //temp trees example
+
+
     }
 
     //need to rename
@@ -199,21 +218,6 @@ public class WorldGen : MonoBehaviour
             {
                 LoadChunk(i, j);
             }
-        }
-    }
-
-
-    void LoadPlayerChunk()
-    {
-        int playerX = (int)player.transform.position.x / Chunk.size;
-        int playerY = (int)player.transform.position.y / Chunk.size;
-
-        if (curx != playerX || cury != playerY)
-        {
-            UnloadChunk(curx, cury);
-            curx = playerX;
-            cury = playerY;
-            LoadChunk(playerX, playerY);
         }
     }
 }

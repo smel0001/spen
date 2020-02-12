@@ -18,10 +18,7 @@ public class Chunk
 
     public RuleTile GetTile(int x, int y)
     {
-        string slug = "Sprites/RuleTiles/" + tiles[x, y].tileBiome.TileSlug;
-        RuleTile ruleTile = Resources.Load<RuleTile>(slug);
-
-        return ruleTile;
+        return tiles[x, y].tileBiome.BiomeTile;
     }
 
     public void Tick()

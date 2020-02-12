@@ -96,6 +96,7 @@ public sealed class BiomeData
         Biome[] biomesArray = JsonHelper.FromJson<Biome>(File.ReadAllText(filePath));
         for (int i = 0; i < biomesArray.Length; i++)
         {
+            biomesArray[i].Init();
             foreach (string key in biomesArray[i].Keys)
             {
                 biomeDict.Add(key, biomesArray[i]);
@@ -191,4 +192,19 @@ public class Biome
     public string Title;
     public string TileSlug;
     public List<string> Keys;
+    public bool SpawnTrees;
+
+    [System.NonSerialized]
+    public RuleTile BiomeTile;
+    [System.NonSerialized]
+    public GameObject Treefab;
+
+    public void Init()
+    {
+        string slug = "Sprites/RuleTiles/" + this.TileSlug;
+        BiomeTile = Resources.Load<RuleTile>(slug);
+
+        slug = "Prefabs/Trees/" + this.TileSlug;
+        Treefab = Resources.Load<GameObject>(slug);
+    }
 }

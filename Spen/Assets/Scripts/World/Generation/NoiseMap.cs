@@ -17,6 +17,8 @@ public static class NoiseMap
         }
     }
 
+    public static Wave[] DefaultWaves = new Wave[1] {new Wave(0, 1, 1)};
+
 
     public static float[,] GeneratePerlinNoiseMap(int mapWidth, int mapHeight, float scale, float offsetX, float offsetY, Wave[] waves)
     {
