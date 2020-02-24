@@ -23,6 +23,7 @@ public sealed class ItemDatabase
     private List<Item> database = new List<Item>();
     private static string itemDatabaseFileName = "/StreamingAssets/Items.json";
     private static string placeItemDatabaseFileName = "/StreamingAssets/PlaceItems.json";
+    private static string tilePlaceItemDatabaseFileName = "/StreamingAssets/PlaceTileItems.json";
 
     void LoadItemDatabase()
     {
@@ -42,6 +43,16 @@ public sealed class ItemDatabase
             //TODO move item init to inside the FromJson call
             placeItems[i].Init();
             database.Add(placeItems[i]);
+        }
+
+
+        string tilePlaceFilePath = Application.dataPath + tilePlaceItemDatabaseFileName;
+        PlaceTileItem[] tileItems = JsonHelper.FromJson<PlaceTileItem>(File.ReadAllText(tilePlaceFilePath));
+        for (int i = 0; i < tileItems.Length; i++)
+        {
+            //TODO move item init to inside the FromJson call
+            tileItems[i].Init();
+            database.Add(tileItems[i]);
         }
     }
 

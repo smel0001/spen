@@ -72,6 +72,7 @@ public class Inventory : MonoBehaviour
         AddItem(6);
         AddItem(6);
         AddItem(5);
+        AddItem(40);
     }
 
     //Mostly temp

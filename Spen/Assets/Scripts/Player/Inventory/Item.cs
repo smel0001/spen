@@ -106,13 +106,15 @@ public class UseItem : Item
 [System.Serializable]
 public class PlaceItem : UseItem
 {
+    [SerializeField]
+    private string PrefabSlug;
     public string PlaceOnTag;
-    public string PrefabSlug;
+
+    protected Cursor cursor;
+
     private GameObject prefab;
-
     //TEMP, find better way to do this, maybe as static etc
-    private Cursor cursor;
-
+    
     //Icon image for indicator
 
     public PlaceItem(int id, string title, int value, string slug) : base(id, title, value, slug)
@@ -142,7 +144,7 @@ public class PlaceItem : UseItem
         return false;
     }
 
-    private void PlaceInWorld()
+    protected virtual void PlaceInWorld()
     {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0f;
@@ -170,11 +172,33 @@ public class PlaceItem : UseItem
     {
         cursor.ResetSprite();
     }
-
-
 }
 
-/*
+[System.Serializable]
 public class PlaceTileItem : PlaceItem
-use a RuleTile instead of a prefab when placing, and place into the appropriate tilemap layer
-*/
+{
+    [SerializeField]
+    private string TileSlug;
+    private RuleTile tile;
+
+    public PlaceTileItem(int id, string title, int value, string slug) : base(id, title, value, slug)
+    {}
+
+    protected override void PlaceInWorld()
+    {
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        pos.z = 0f;
+        //This map is temp, maybe a slug to find correct map to place into?
+        Tilemap map = GameObject.Find("Deco").GetComponent<Tilemap>();
+
+        Vector3Int cellPos = map.WorldToCell(pos);
+
+        map.SetTile(cellPos, tile);
+    }
+
+    protected override void ExtendInit()
+    {
+        this.tile = Resources.Load<RuleTile>("Sprites/RuleTiles/" + TileSlug);
+        cursor = GameObject.Find("UI/Canvas/Cursor").GetComponent<Cursor>();
+    }
+}
