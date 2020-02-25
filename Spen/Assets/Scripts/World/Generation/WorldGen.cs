@@ -37,7 +37,7 @@ public class WorldGen : MonoBehaviour
 
     public NoiseMap.Wave[] caveWaves;
 
-    public static int WorldSize = 64;
+    public static int WorldSize = 16;
     private int numChunks = WorldSize / Chunk.size;
 
     private Dictionary<System.Tuple<int, int>, GenTile[,]> fullchunkmap;

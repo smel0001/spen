@@ -1,0 +1,35 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody2D))]
+public class Bullet : MonoBehaviour
+{
+    Rigidbody2D rb;
+    public float speed = 10f;
+    public float duration = 2f;
+
+    [System.NonSerialized]
+    public Vector2 dir;
+
+    private float timer;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        timer = duration;
+    }
+
+    void FixedUpdate()
+    {
+        if (timer > 0f)
+        {
+            rb.MovePosition(rb.position + dir * speed * Time.fixedDeltaTime);
+            timer -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+}
