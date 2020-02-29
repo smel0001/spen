@@ -18,8 +18,6 @@ public class Shooting : MonoBehaviour
 
     void Shoot()
     {
-        Bullet newBullet = Instantiate<GameObject>(bullet, transform.position, Quaternion.identity, this.transform).GetComponent<Bullet>();
-        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        newBullet.dir = direction.normalized;
+
     }
 }

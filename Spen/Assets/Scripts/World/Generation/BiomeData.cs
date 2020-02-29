@@ -13,7 +13,6 @@ public sealed class BiomeData
 
     static BiomeData()
     {
-        Debug.Log("static runs");
         Instance.LoadAll();
     }
     //private BiomeData(){}

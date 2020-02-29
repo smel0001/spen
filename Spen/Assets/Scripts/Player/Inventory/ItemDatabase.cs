@@ -22,8 +22,8 @@ public sealed class ItemDatabase
 
     private List<Item> database = new List<Item>();
     private static string itemDatabaseFileName = "/StreamingAssets/Items.json";
-    private static string placeItemDatabaseFileName = "/StreamingAssets/PlaceItems.json";
-    private static string tilePlaceItemDatabaseFileName = "/StreamingAssets/PlaceTileItems.json";
+    private static string spawnerFilePath = "/StreamingAssets/SpawnerItems.json";
+    private static string tileSpawnerFilePath = "/StreamingAssets/TileSpawnerItems.json";
 
     void LoadItemDatabase()
     {
@@ -36,23 +36,23 @@ public sealed class ItemDatabase
             database.Add(items[i]);
         }
 
-        string placeFilePath = Application.dataPath + placeItemDatabaseFileName;
-        PlaceItem[] placeItems = JsonHelper.FromJson<PlaceItem>(File.ReadAllText(placeFilePath));
-        for (int i = 0; i < placeItems.Length; i++)
+        //Item, EquipItem, UsableItem, Consumable, Interactor, Spawner, TileSpawner 
+        filePath = Application.dataPath + spawnerFilePath;
+        SpawnerItem[] spawnerItems = JsonHelper.FromJson<SpawnerItem>(File.ReadAllText(filePath));
+        for (int i = 0; i < spawnerItems.Length; i++)
         {
             //TODO move item init to inside the FromJson call
-            placeItems[i].Init();
-            database.Add(placeItems[i]);
+            spawnerItems[i].Init();
+            database.Add(spawnerItems[i]);
         }
 
-
-        string tilePlaceFilePath = Application.dataPath + tilePlaceItemDatabaseFileName;
-        PlaceTileItem[] tileItems = JsonHelper.FromJson<PlaceTileItem>(File.ReadAllText(tilePlaceFilePath));
-        for (int i = 0; i < tileItems.Length; i++)
+        filePath = Application.dataPath + tileSpawnerFilePath;
+        TileSpawnerItem[] tileSpawnerItems = JsonHelper.FromJson<TileSpawnerItem>(File.ReadAllText(filePath));
+        for (int i = 0; i < tileSpawnerItems.Length; i++)
         {
             //TODO move item init to inside the FromJson call
-            tileItems[i].Init();
-            database.Add(tileItems[i]);
+            tileSpawnerItems[i].Init();
+            database.Add(tileSpawnerItems[i]);
         }
     }
 

@@ -1,0 +1,52 @@
+{
+    "Items" : [
+        {
+            "ID": 4,
+            "Title": "Sunflower Seed",
+            "Value": 1,
+            "Stackable": true,
+            "Slug": "sunflower_seeds",
+            "RemoveAfterUse": true,
+            "InteractionTag": "Soil",
+            "PrefabSlug": "sunflower",
+            "SpawnAtCursor": true,
+            "SpawnInGrid": true
+        },
+        {
+            "ID": 6,
+            "Title": "Tomato Seed",
+            "Value": 1,
+            "Stackable": true,
+            "Slug": "tomato_seeds",
+            "RemoveAfterUse": true,
+            "InteractionTag": "Soil",
+            "PrefabSlug": "tomato",
+            "SpawnAtCursor": true,
+            "SpawnInGrid": true
+        },
+        {
+            "ID": 66,
+            "Title": "Gun",
+            "Value": 1,
+            "Stackable": false,
+            "Slug": "gun",
+            "RemoveAfterUse": false,
+            "InteractionTag": "",
+            "PrefabSlug": "bullet",
+            "SpawnAtCursor": false,
+            "SpawnInGrid": false
+        },
+        {
+            "ID": 67,
+            "Title": "Sprinkler",
+            "Value": 1,
+            "Stackable": true,
+            "Slug": "Dungus",
+            "RemoveAfterUse": false,
+            "InteractionTag": "",
+            "PrefabSlug": "sprinkler",
+            "SpawnAtCursor": true,
+            "SpawnInGrid": true
+        }
+    ]
+}

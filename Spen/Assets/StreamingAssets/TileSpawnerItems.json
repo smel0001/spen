@@ -1,0 +1,24 @@
+{
+    "Items" : [
+        {
+            "ID": 40,
+            "Title": "Road",
+            "Value": 1,
+            "Stackable": true,
+            "Slug": "road",
+            "RemoveAfterUse": true,
+            "InteractionTag": "",
+            "TileSlug": "road"
+        },
+        {
+            "ID": 5,
+            "Title": "Tool",
+            "Value": 1,
+            "Stackable": false,
+            "Slug": "Ttool",
+            "RemoveAfterUse": false,
+            "InteractionTag": "",
+            "TileSlug": "Soil"
+        }
+    ]
+}

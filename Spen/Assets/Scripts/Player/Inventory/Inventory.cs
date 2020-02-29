@@ -73,6 +73,11 @@ public class Inventory : MonoBehaviour
         AddItem(6);
         AddItem(5);
         AddItem(40);
+        AddItem(40);
+        AddItem(40);
+        AddItem(40);
+        AddItem(66);
+        AddItem(67);
     }
 
     //Mostly temp
@@ -81,9 +86,9 @@ public class Inventory : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            if (items[SelectedSlot] as UseItem != null)
+            if (items[SelectedSlot] as UsableItem != null)
             {
-                UseItem activeItem = (UseItem)items[SelectedSlot];
+                UsableItem activeItem = (UsableItem)items[SelectedSlot];
                 if (activeItem.Activate())
                 {
                     if (activeItem.RemoveAfterUse)
@@ -102,7 +107,6 @@ public class Inventory : MonoBehaviour
                 {
                     if (hit.collider != null)
                     {
-                        Debug.Log(hit.transform.gameObject.name);
                         GameObject obj = hit.transform.gameObject;
                         if (obj.tag == "Clickable")
                         {
@@ -221,7 +225,6 @@ public class Inventory : MonoBehaviour
         if (items[index].ID != -1)
         {
             ItemData myItem = slots[SelectedSlot].transform.GetComponentInChildren<ItemData>();
-            Debug.Log(myItem.amount);
             if (myItem.amount == 0)
             {
                 items[SelectedSlot].ExitSelected();

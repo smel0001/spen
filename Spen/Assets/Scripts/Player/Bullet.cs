@@ -16,6 +16,9 @@ public class Bullet : MonoBehaviour
 
     void Start()
     {
+        Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - GameObject.Find("Player").transform.position;
+        this.dir = direction.normalized;
+
         rb = GetComponent<Rigidbody2D>();
         timer = duration;
     }

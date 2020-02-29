@@ -9,17 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: road
+  m_Script: {fileID: 11500000, guid: 50965aa7161cdf548b3883ee16d3eeaf, type: 3}
+  m_Name: Soil
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 1922670422016242913, guid: 33dd76d63214f9646af789f864ca3af9,
-    type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: 2546a201ad4fe5641960fa1f7fdf8122, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 2
   m_TilingRules:
   - m_Id: 0
     m_Sprites:
-    - {fileID: 1922670422016242913, guid: 33dd76d63214f9646af789f864ca3af9, type: 3}
+    - {fileID: 21300000, guid: 2546a201ad4fe5641960fa1f7fdf8122, type: 3}
     m_GameObject: {fileID: 0}
     m_AnimationSpeed: 1
     m_PerlinScale: 0.5
@@ -37,3 +36,5 @@ MonoBehaviour:
     - {x: 0, y: -1, z: 0}
     - {x: 1, y: -1, z: 0}
     m_RuleTransform: 0
+  Tag: Soil
+  MaxSaturation: 10
