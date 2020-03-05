@@ -1,0 +1,132 @@
+Terrain
+[
+    {
+        "ID": 0,
+        "Title": "Water",
+        "HeightThreshold": 0.3
+    },
+    {
+        "ID": 1,
+        "Title": "Grass",
+        "HeightThreshold": 0.7
+    },
+    {
+        "ID": 2,
+        "Title": "Mountain",
+        "HeightThreshold": 1
+    }
+]
+#TemperatureBiomeCategory
+[
+    {
+        "Title": "Coldest",
+        "Threshold": 0.25
+    },
+    {
+        "Title": "Cold",
+        "Threshold": 0.5
+    },
+    {
+        "Title": "Warm",
+        "Threshold": 0.75
+    },
+    {
+        "Title": "Warmest",
+        "Threshold": 1
+    }
+]
+#MoistureBiomeCategory
+[
+    {
+        "Title": "Dryest",
+        "Threshold": 0.25
+    },
+    {
+        "Title": "Dry",
+        "Threshold": 0.5
+    },
+    {
+        "Title": "Wet",
+        "Threshold": 0.75
+    },
+    {
+        "Title": "Wettest",
+        "Threshold": 1
+    }
+]
+#Biome
+[
+    {
+        "ID": 0,
+        "Title": "Ocean",
+        "TileSlug": "Ocean",
+        "Keys": [
+            "99"
+        ],
+        "SpawnTrees": false
+    },
+    {
+        "ID": 1,
+        "Title": "Tundra",
+        "TileSlug": "Tundra",
+        "Keys": [
+            "00",
+            "01",
+            "10",
+            "20",
+            "30",
+            "31"
+        ],
+        "SpawnTrees": false
+    },
+    {
+        "ID": 2,
+        "Title": "Grass",
+        "TileSlug": "Grass",
+        "Keys": [
+            "02"
+        ],
+        "SpawnTrees": true
+    },
+    {
+        "ID": 3,
+        "Title": "Desert",
+        "TileSlug": "Desert",
+        "Keys": [
+            "03"
+        ],
+        "SpawnTrees": false
+    },
+    {
+        "ID": 4,
+        "Title": "Boreal Forest",
+        "TileSlug": "Boreal",
+        "Keys": [
+            "11",
+            "21",
+            "22"
+        ],
+        "SpawnTrees": true
+    },
+    {
+        "ID": 5,
+        "Title": "Savanna",
+        "TileSlug": "Savanna",
+        "Keys": [
+            "12",
+            "13"
+        ],
+        "SpawnTrees": true
+    },
+    {
+        "ID": 6,
+        "Title": "Rainforest",
+        "TileSlug": "Rainforest",
+        "Keys": [
+            "23",
+            "32",
+            "33"
+        ],
+        "SpawnTrees": true
+    }
+]

@@ -1,0 +1,110 @@
+Item
+[
+    {
+        "ID": 0,
+        "Title": "Apple",
+        "Value": 1,
+        "Stackable": true,
+        "Slug": "apple"
+    },
+    {
+        "ID": 1,
+        "Title": "Orange",
+        "Value": 1,
+        "Stackable": true,
+        "Slug": "orange"
+    },
+    {
+        "ID": 2,
+        "Title": "Lemon",
+        "Value": 1,
+        "Stackable": true,
+        "Slug": "lemon"
+    },
+    {
+        "ID": 3,
+        "Title": "Sunflower",
+        "Value": 1,
+        "Stackable": true,
+        "Slug": "sunflower"
+    },
+    {
+        "ID": 7,
+        "Title": "Tomato",
+        "Value": 1,
+        "Stackable": true,
+        "Slug": "tomato"
+    }
+]
+#EquipItem
+#UsableItem
+#SpawnerItem
+[
+    {
+        "ID": 4,
+        "Title": "Sunflower Seed",
+        "Stackable": true,
+        "Slug": "sunflower_seeds",
+        "InteractionTag": "Soil",
+        "PrefabSlug": "sunflower",
+        "SpawnAtCursor": true,
+        "SpawnInGrid": true
+    },
+    {
+        "ID": 6,
+        "Title": "Tomato Seed",
+        "Value": 1,
+        "Stackable": true,
+        "Slug": "tomato_seeds",
+        "InteractionTag": "Soil",
+        "PrefabSlug": "tomato",
+        "SpawnAtCursor": true,
+        "SpawnInGrid": true
+    },
+    {
+        "ID": 66,
+        "Title": "Gun",
+        "Value": 1,
+        "Stackable": false,
+        "Slug": "gun",
+        "RemoveAfterUse": false,
+        "InteractionTag": "",
+        "PrefabSlug": "bullet",
+        "SpawnAtCursor": false,
+        "SpawnInGrid": false
+    },
+    {
+        "ID": 67,
+        "Title": "Sprinkler",
+        "Value": 1,
+        "Stackable": true,
+        "Slug": "Dungus",
+        "RemoveAfterUse": false,
+        "InteractionTag": "",
+        "PrefabSlug": "sprinkler",
+        "SpawnAtCursor": true,
+        "SpawnInGrid": true
+    }
+]
+#TileSpawnerItem
+[
+    {
+        "ID": 40,
+        "Title": "Road",
+        "Value": 1,
+        "Stackable": true,
+        "Slug": "road",
+        "InteractionTag": "",
+        "TileSlug": "road"
+    },
+    {
+        "ID": 5,
+        "Title": "Tool",
+        "Value": 1,
+        "Stackable": false,
+        "Slug": "Ttool",
+        "RemoveAfterUse": false,
+        "InteractionTag": "",
+        "TileSlug": "Soil"
+    }
+]

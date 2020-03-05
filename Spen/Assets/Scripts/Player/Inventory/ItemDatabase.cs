@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Newtonsoft.Json;
 
 public sealed class ItemDatabase
 {
@@ -12,7 +13,6 @@ public sealed class ItemDatabase
     {
         Instance.LoadItemDatabase();
     }
-    //private BiomeData(){}
 
     public static ItemDatabase Instance
     {
@@ -21,82 +21,65 @@ public sealed class ItemDatabase
     #endregion
 
     private List<Item> database = new List<Item>();
-    private static string itemDatabaseFileName = "/StreamingAssets/Items.json";
-    private static string spawnerFilePath = "/StreamingAssets/SpawnerItems.json";
-    private static string tileSpawnerFilePath = "/StreamingAssets/TileSpawnerItems.json";
+    private static string itemDatabaseFileName = "/StreamingAssets/MasterItems.json";
 
     void LoadItemDatabase()
     {
+
+        JsonSerializerSettings setting = new JsonSerializerSettings();
+        setting.DefaultValueHandling = DefaultValueHandling.Populate;
+
         string filePath = Application.dataPath + itemDatabaseFileName;
-        Item[] items = JsonHelper.FromJson<Item>(File.ReadAllText(filePath));
-        for (int i = 0; i < items.Length; i++)
-        {
-            //TODO move item init to inside the FromJson call
-            items[i].Init();
-            database.Add(items[i]);
-        }
 
-        //Item, EquipItem, UsableItem, Consumable, Interactor, Spawner, TileSpawner 
-        filePath = Application.dataPath + spawnerFilePath;
-        SpawnerItem[] spawnerItems = JsonHelper.FromJson<SpawnerItem>(File.ReadAllText(filePath));
-        for (int i = 0; i < spawnerItems.Length; i++)
-        {
-            //TODO move item init to inside the FromJson call
-            spawnerItems[i].Init();
-            database.Add(spawnerItems[i]);
-        }
+        string text = File.ReadAllText(filePath);
+        string[] buckets = text.Split('#');
 
-        filePath = Application.dataPath + tileSpawnerFilePath;
-        TileSpawnerItem[] tileSpawnerItems = JsonHelper.FromJson<TileSpawnerItem>(File.ReadAllText(filePath));
-        for (int i = 0; i < tileSpawnerItems.Length; i++)
+        foreach (string itemTypeData in buckets)
         {
-            //TODO move item init to inside the FromJson call
-            tileSpawnerItems[i].Init();
-            database.Add(tileSpawnerItems[i]);
+            int newlineIndex = itemTypeData.IndexOf(System.Environment.NewLine);
+            string typeText = itemTypeData.Substring(0, newlineIndex);
+            string jsonText = itemTypeData.Substring(newlineIndex + 1);
+
+            switch(typeText)
+            {
+                case "Item":
+                    List<Item> itemList = JsonConvert.DeserializeObject<List<Item>>(jsonText, setting);
+                    AddItemListToDB(itemList);
+                    break;
+                case "EquipItem":
+                    List<EquipItem> equipItemList = JsonConvert.DeserializeObject<List<EquipItem>>(jsonText, setting);
+                    AddItemListToDB(equipItemList);
+                    break;
+                case "UsableItem":
+                    List<UsableItem> usableItemList = JsonConvert.DeserializeObject<List<UsableItem>>(jsonText, setting);
+                    AddItemListToDB(usableItemList);
+                    break;
+                case "SpawnerItem":
+                    List<SpawnerItem> spawnItemList = JsonConvert.DeserializeObject<List<SpawnerItem>>(jsonText, setting);
+                    AddItemListToDB(spawnItemList);
+                    break;
+                case "TileSpawnerItem":
+                    List<TileSpawnerItem> tileSpawnItemList = JsonConvert.DeserializeObject<List<TileSpawnerItem>>(jsonText, setting);
+                    AddItemListToDB(tileSpawnItemList);
+                    break;
+            }
         }
     }
 
-    //Debug/Dev Function
-    void SaveItemDatabase()
+    void AddItemListToDB<T>(List<T> list) where T : Item
     {
-        Item[] items = database.ToArray();
-        string myjson = JsonHelper.ToJson(items, true);
-        File.WriteAllText(Application.dataPath + "/StreamingAssets/Items.json", myjson);
+        if (list != null)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].Init();
+                database.Add(list[i]);
+            }
+        }
     }
-
+    
     public Item FetchItemById(int id)
     {
         return database.Find(x => x.ID == id);
     }
 }
-
-//From:
-//Functions for JsonUtility to manage arrays
-public static class JsonHelper
-{
-    public static T[] FromJson<T>(string json)
-    {
-        Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(json);
-        return wrapper.Items;
-    }
-
-    public static string ToJson<T>(T[] array)
-    {
-        Wrapper<T> wrapper = new Wrapper<T>();
-        wrapper.Items = array;
-        return JsonUtility.ToJson(wrapper);
-    }
-
-    public static string ToJson<T>(T[] array, bool prettyPrint)
-    {
-        Wrapper<T> wrapper = new Wrapper<T>();
-        wrapper.Items = array;
-        return JsonUtility.ToJson(wrapper, prettyPrint);
-    }
-
-    [System.Serializable]
-    private class Wrapper<T>
-    {
-        public T[] Items;
-    }
- }

@@ -14,15 +14,19 @@ Field in Item as definition then create another class? (feels jank).
 [System.Serializable]
 public class Item
 {
+    #region Required Fields
     public int ID;
     public string Title;
     public int Value;
     public bool Stackable;
     public string Slug;
+    #endregion
 
+    #region Interal Fields
     [System.NonSerialized]
     public Sprite Icon;
     private GameObject WorldItem;
+    #endregion
 
     public Item()
     {
@@ -40,7 +44,7 @@ public class Item
 
     public void Init()
     {
-        //Core Init
+        Debug.Log("Core Init");
         this.Icon = Resources.Load<Sprite>("Sprites/Items/" + Slug);
         WorldItem = Resources.Load<GameObject>("Prefabs/WorldItem");
         ExtendInit();
@@ -76,7 +80,11 @@ public class Item
 [System.Serializable]
 public class UsableItem : Item
 {
+    #region Optional Fields
+    [System.ComponentModel.DefaultValue(true)]
     public bool RemoveAfterUse;
+    #endregion
+    
     public virtual bool Activate() {return false;}
     public UsableItem(int id, string title, int value, string slug) : base(id, title, value, slug) {}
 }

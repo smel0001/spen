@@ -66,8 +66,8 @@ public class Inventory : MonoBehaviour
 
 
         //Load saved items, can just be a list of ids and amounts somewhere (for now)
-        AddItem(6);
-        AddItem(6);
+        AddItem(4);
+        AddItem(0);
         AddItem(6);
         AddItem(6);
         AddItem(6);

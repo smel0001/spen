@@ -6,20 +6,27 @@ using UnityEngine.Tilemaps;
 [System.Serializable]
 public class SpawnerItem : InteractorItem
 {
-    [SerializeField]
-    private string PrefabSlug;
-    [SerializeField]
-    private bool SpawnAtCursor;
-    [SerializeField]
-    private bool SpawnInGrid;
+    #region Required Fields
+    public string PrefabSlug;
+    #endregion
 
-    private GameObject prefab;  //TEMP, find better way to do this, maybe as static etc
+    #region Optional Fields
+    [System.ComponentModel.DefaultValue(true)]
+    public bool SpawnAtCursor;
+    [System.ComponentModel.DefaultValue(true)]
+    public bool SpawnInGrid;
+    #endregion
+
+    #region Internal Fields
+    private GameObject prefab;
+    #endregion
     
     public SpawnerItem(int id, string title, int value, string slug) : base(id, title, value, slug)
     {}
 
     protected override void ExtendInit()
     {
+        Debug.Log("Spawner Init");
         this.prefab = Resources.Load<GameObject>("Prefabs/" + PrefabSlug);
         cursor = GameObject.Find("UI/Canvas/Cursor").GetComponent<Cursor>();
     }
@@ -50,14 +57,19 @@ public class SpawnerItem : InteractorItem
 [System.Serializable]
 public class TileSpawnerItem : SpawnerItem
 {
-    [SerializeField]
-    private string TileSlug;
+    #region Required Fields
+    public string TileSlug;
+    #endregion
+
+    #region Internal Fields
     private RuleTile tile;
+    #endregion
 
     public TileSpawnerItem(int id, string title, int value, string slug) : base(id, title, value, slug) {}
 
     protected override void Interact<T>(T obj)
     {
+        Debug.Log("Place Tile");
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0f;
 

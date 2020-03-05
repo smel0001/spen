@@ -29,3 +29,16 @@ Notes on the way the world works:
 **Options:
 	New scene for each tier (i like this? Make more pieces)
 	Player inventory and other stats need to persist through scene loads so save then load
+
+
+
+
+
+Features:
+	Farm Animals
+	Tractor
+	A vine archway
+	A well
+	Fountain
+	Weeping Willow Tree
+	Pond with Fish

@@ -3,7 +3,6 @@
         {
             "ID": 4,
             "Title": "Sunflower Seed",
-            "Value": 1,
             "Stackable": true,
             "Slug": "sunflower_seeds",
             "RemoveAfterUse": true,

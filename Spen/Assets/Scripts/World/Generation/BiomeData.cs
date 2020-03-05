@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Newtonsoft.Json;
 
 public sealed class BiomeData
 {
@@ -13,7 +14,7 @@ public sealed class BiomeData
 
     static BiomeData()
     {
-        Instance.LoadAll();
+        Instance.LoadBiomeData();
     }
     //private BiomeData(){}
 
@@ -48,61 +49,49 @@ public sealed class BiomeData
      */
     private Dictionary<string, Biome> biomeDict = new Dictionary<string, Biome>();
 
-    private static string terrainDataFileName = "/StreamingAssets/Terrain.json";
-    private static string biomeCategoryDataFileName = "/StreamingAssets/BiomeCategories.json";
-    private static string biomeDataFileName = "/StreamingAssets/Biomes.json";
+    private static string biomeDataFileName = "/StreamingAssets/BiomeData.json";
 
 
-    public void LoadAll()
-    {
-        LoadTerrainData();
-        LoadBiomeCategoryData();
-        LoadBiomeData();
-    }
-
-    void LoadTerrainData()
-    {
-        string filePath = Application.dataPath + terrainDataFileName;
-        Terrain[] terrainArray = JsonHelper.FromJson<Terrain>(File.ReadAllText(filePath));
-        for (int i = 0; i < terrainArray.Length; i++)
-        {
-            terrain.Add(terrainArray[i]);
-        }
-    }
-
-    void LoadBiomeCategoryData()
-    {
-        string filePath = Application.dataPath + biomeCategoryDataFileName;
-        BiomeCategory[] biomesArray = JsonHelper.FromJson<BiomeCategory>(File.ReadAllText(filePath));
-        for (int i = 0; i < biomesArray.Length; i++)
-        {
-            if (biomesArray[i].isTemperature)
-            {
-                temperatureCategories.Add(biomesArray[i]);
-            }
-            else
-            {
-                moistureCategories.Add(biomesArray[i]);
-            }
-        }
-        temperatureCategories.Sort();
-        moistureCategories.Sort();
-    }
-
-    void LoadBiomeData()
+    public void LoadBiomeData()
     {
         string filePath = Application.dataPath + biomeDataFileName;
-        Biome[] biomesArray = JsonHelper.FromJson<Biome>(File.ReadAllText(filePath));
-        for (int i = 0; i < biomesArray.Length; i++)
+
+        string text = File.ReadAllText(filePath);
+        string[] buckets = text.Split('#');
+
+        foreach (string biomeTypeData in buckets)
         {
-            biomesArray[i].Init();
-            foreach (string key in biomesArray[i].Keys)
+            int newlineIndex = biomeTypeData.IndexOf(System.Environment.NewLine);
+            string typeText = biomeTypeData.Substring(0, newlineIndex);
+            string jsonText = biomeTypeData.Substring(newlineIndex + 1);
+
+            switch (typeText)
             {
-                biomeDict.Add(key, biomesArray[i]);
+                case "Terrain":
+                    terrain = JsonConvert.DeserializeObject<List<Terrain>>(jsonText);
+                    break;
+                case "TemperatureBiomeCategory":
+                    temperatureCategories = JsonConvert.DeserializeObject<List<BiomeCategory>>(jsonText);
+                    temperatureCategories.Sort();
+                    break;
+                case "MoistureBiomeCategory":
+                    moistureCategories = JsonConvert.DeserializeObject<List<BiomeCategory>>(jsonText);
+                    moistureCategories.Sort();
+                    break;
+                case "Biome":
+                    List<Biome> biomes = JsonConvert.DeserializeObject<List<Biome>>(jsonText);
+                    foreach (Biome biome in biomes)
+                    {
+                        biome.Init();
+                        foreach (string key in biome.Keys)
+                        {
+                            biomeDict.Add(key, biome);
+                        }
+                    }
+                    break;
             }
         }
     }
-
 
     public Terrain GetTerrain(float height)
     {
@@ -170,9 +159,7 @@ public class Terrain
 [System.Serializable]
 public class BiomeCategory : System.IComparable
 {
-    public int ID;
     public string Title;
-    public bool isTemperature;
     public float Threshold;
 
     public int CompareTo(object obj)
