@@ -44,7 +44,6 @@ public class Item
 
     public void Init()
     {
-        Debug.Log("Core Init");
         this.Icon = Resources.Load<Sprite>("Sprites/Items/" + Slug);
         WorldItem = Resources.Load<GameObject>("Prefabs/WorldItem");
         ExtendInit();

@@ -26,7 +26,6 @@ public class SpawnerItem : InteractorItem
 
     protected override void ExtendInit()
     {
-        Debug.Log("Spawner Init");
         this.prefab = Resources.Load<GameObject>("Prefabs/" + PrefabSlug);
         cursor = GameObject.Find("UI/Canvas/Cursor").GetComponent<Cursor>();
     }
@@ -69,7 +68,6 @@ public class TileSpawnerItem : SpawnerItem
 
     protected override void Interact<T>(T obj)
     {
-        Debug.Log("Place Tile");
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0f;
 

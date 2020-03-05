@@ -21,7 +21,7 @@ public sealed class ItemDatabase
     #endregion
 
     private List<Item> database = new List<Item>();
-    private static string itemDatabaseFileName = "/StreamingAssets/MasterItems.json";
+    private static string itemDatabaseFileName = "/StreamingAssets/ItemData.json";
 
     void LoadItemDatabase()
     {
