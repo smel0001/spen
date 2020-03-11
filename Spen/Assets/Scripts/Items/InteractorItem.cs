@@ -6,9 +6,14 @@ using UnityEngine.Tilemaps;
 [System.Serializable]
 public class InteractorItem : UsableItem
 {
+    #region Optional Fields
+    [System.ComponentModel.DefaultValue("")]
     public string InteractionTag;
+    #endregion
 
+    #region Internal Fields
     protected Cursor cursor;
+    #endregion
 
     public InteractorItem(int id, string title, int value, string slug) : base(id, title, value, slug)
     {}
@@ -22,8 +27,7 @@ public class InteractorItem : UsableItem
     {
         if (InteractionTag == "")
         {
-            Interact<object>(null);
-            return true;
+            return Interact<object>(null);
         }
         else
         {
@@ -37,34 +41,32 @@ public class InteractorItem : UsableItem
                     InteractRuleTile tile = map.GetTile(map.WorldToCell(hit.point)) as InteractRuleTile;
                     if (tile.Tag == InteractionTag)
                     {
-                        Interact(tile);
-                        return true;
+                        return Interact(tile);
                     }
                 }
                 if (hit.transform.tag == InteractionTag)
                 {
-                    Interact(hit.transform.gameObject);
-                    return true;
+                    return Interact(hit.transform.gameObject);
                 }
             }
         }
         return false;
     }
     
-    protected virtual void Interact<T>(T obj)
+    protected virtual bool Interact<T>(T obj)
     {
         if (obj != null)
         {
             //something like this, cause change in world obj
             //obj.GetComponent<InteractableWorldObject?>().Interact();
         }
+        return true;
     }
 
     public override void EnterSelected() 
     {
         cursor.SetSprite(this.Icon);
     }
-    public override void WhileSelected() {}
     public override void ExitSelected()
     {
         cursor.ResetSprite();

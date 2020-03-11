@@ -15,10 +15,17 @@ public class SpawnerItem : InteractorItem
     public bool SpawnAtCursor;
     [System.ComponentModel.DefaultValue(true)]
     public bool SpawnInGrid;
+    [System.ComponentModel.DefaultValue(0.0f)]
+    public float SpawnCooldown;
+    [System.ComponentModel.DefaultValue(false)]
+    public bool SpawnSingleton;
     #endregion
 
     #region Internal Fields
     private GameObject prefab;
+    private bool spawnUnlock = true;
+    private float cdTimer;
+    private GameObject singleton;
     #endregion
     
     public SpawnerItem(int id, string title, int value, string slug) : base(id, title, value, slug)
@@ -28,10 +35,17 @@ public class SpawnerItem : InteractorItem
     {
         this.prefab = Resources.Load<GameObject>("Prefabs/" + PrefabSlug);
         cursor = GameObject.Find("UI/Canvas/Cursor").GetComponent<Cursor>();
+        cdTimer = SpawnCooldown;
     }
 
-    protected override void Interact<T>(T obj)
+    protected override bool Interact<T>(T obj)
     {
+        //Pre Handle Options
+
+        //TODO: fix singleton spawning
+        //if (SpawnSingleton && singleton != null) { return; }
+        if (!spawnUnlock) { return false; }
+
         Vector3 pos = Vector3.zero;
         if (SpawnAtCursor)
         {
@@ -43,13 +57,50 @@ public class SpawnerItem : InteractorItem
             pos = GameObject.Find("Player").transform.position; //kinda jank
         }
 
+        bool wasSpawned;
         if (SpawnInGrid)
         {
-            Tilemap map = GameObject.Find("Clickable").GetComponent<Tilemap>();
-            pos = map.WorldToCell(pos) + new Vector3(0.5f,0.5f,0f);
+            wasSpawned = ObjectManager.Instance.AddObjectToGrid(prefab, pos);
+        }
+        else
+        {
+            wasSpawned = ObjectManager.Instance.AddObject(prefab, pos);
         }
 
-        Object.Instantiate(prefab, pos, Quaternion.identity);
+        if (wasSpawned)
+        {
+            //Post Handle Options
+            /*
+            if (SpawnSingleton)
+            {
+                singleton = spawnedObj;
+            }
+            */
+            spawnUnlock = false;
+            cdTimer = SpawnCooldown;
+        }
+
+        return wasSpawned;
+    }
+
+    protected override void Update()
+    {
+        
+        if (SpawnCooldown > 0)
+        {
+            if (cdTimer <= 0)
+            {
+                spawnUnlock = true;
+            }
+            else
+            {
+                cdTimer -= Time.deltaTime;
+            }
+        }
+        else
+        {
+            spawnUnlock = true;
+        }
     }
 }
 
@@ -66,7 +117,7 @@ public class TileSpawnerItem : SpawnerItem
 
     public TileSpawnerItem(int id, string title, int value, string slug) : base(id, title, value, slug) {}
 
-    protected override void Interact<T>(T obj)
+    protected override bool Interact<T>(T obj)
     {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0f;
@@ -77,6 +128,7 @@ public class TileSpawnerItem : SpawnerItem
         Vector3Int cellPos = map.WorldToCell(pos);
 
         map.SetTile(cellPos, tile);
+        return true;
     }
 
     protected override void ExtendInit()

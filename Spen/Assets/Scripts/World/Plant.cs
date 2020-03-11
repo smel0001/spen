@@ -56,7 +56,7 @@ public class Plant : MonoBehaviour
             //Drop a flower and some seeds
             harvestDrop.CreateInWorld(this.transform.position);
             seedDrop.CreateInWorld(this.transform.position);
-            Destroy(gameObject);
+            ObjectManager.Instance.RemoveObject(this.gameObject.GetInstanceID());
         }
     }
 }

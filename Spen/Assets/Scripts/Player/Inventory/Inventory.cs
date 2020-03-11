@@ -78,13 +78,16 @@ public class Inventory : MonoBehaviour
         AddItem(40);
         AddItem(66);
         AddItem(67);
+        AddItem(67);
+        AddItem(67);
+        AddItem(67);
+        AddItem(67);
     }
 
     //Mostly temp
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKey(KeyCode.Mouse1))
         {
             if (items[SelectedSlot] as UsableItem != null)
             {
@@ -140,7 +143,6 @@ public class Inventory : MonoBehaviour
         }
 
         //Input for selected slot in toolbar
-        //TODO add on selected and exit selected
         items[SelectedSlot].WhileSelected();
 
         

@@ -32,7 +32,8 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            ObjectManager.Instance.RemoveObject(this.gameObject.GetInstanceID());
+            //Destroy(gameObject);
         }
     }
 }

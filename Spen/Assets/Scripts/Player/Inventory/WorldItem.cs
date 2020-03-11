@@ -13,7 +13,7 @@ public class WorldItem : MonoBehaviour
             //Add to inv
             //Super jank inv should be attached to player but for now we'll survive
             collision.GetComponent<Inventory>().AddItem(itemId);
-            Destroy(gameObject);
+            ObjectManager.Instance.RemoveObject(this.gameObject.GetInstanceID());
         }
     }
 }

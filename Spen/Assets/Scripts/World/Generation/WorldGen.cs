@@ -121,7 +121,7 @@ public class WorldGen : MonoBehaviour
                 {
                     if (trees[i,j] >= 0.8)
                     {
-                        Instantiate(generatedtiles[i,j].tileBiome.Treefab, new Vector3(i+0.5f,j,0), Quaternion.identity);
+                        ObjectManager.Instance.AddObjectToGrid(generatedtiles[i,j].tileBiome.Treefab, new Vector3(i, j, 0));
                     }
                 }
             }

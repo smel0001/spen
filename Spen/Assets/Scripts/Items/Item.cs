@@ -17,12 +17,18 @@ public class Item
     #region Required Fields
     public int ID;
     public string Title;
-    public int Value;
-    public bool Stackable;
+    
     public string Slug;
     #endregion
 
-    #region Interal Fields
+    #region Optional Fields
+    [System.ComponentModel.DefaultValue(true)]
+    public bool Stackable;
+    [System.ComponentModel.DefaultValue(0)]
+    public int Value;
+    #endregion
+
+    #region Internal Fields
     [System.NonSerialized]
     public Sprite Icon;
     private GameObject WorldItem;
@@ -49,8 +55,7 @@ public class Item
         ExtendInit();
     }
 
-    protected virtual void ExtendInit()
-    {}
+    protected virtual void ExtendInit() {}
 
     public string DataString()
     {
@@ -58,21 +63,22 @@ public class Item
         return data;
     }
 
+    
+
     public virtual void EnterSelected() {}
-    public virtual void WhileSelected() {}
+    public virtual void WhileSelected()
+    {
+        this.Update();
+    }
     public virtual void ExitSelected() {}
+
+    protected virtual void Update() {}
 
     public void CreateInWorld(Vector3 pos)
     {
-        GameObject myObj = Object.Instantiate(WorldItem, pos, Quaternion.identity);
-        SpriteRenderer sr = myObj.GetComponent<SpriteRenderer>();
-        myObj.GetComponent<WorldItem>().itemId = this.ID;
-        sr.sprite = this.Icon;
-    }
-
-    public void RemoveFromWorld()
-    {
-        Object.Destroy(WorldItem);
+        WorldItem.GetComponent<SpriteRenderer>().sprite = this.Icon;
+        WorldItem.GetComponent<WorldItem>().itemId = this.ID;
+        ObjectManager.Instance.AddObject(WorldItem, pos);
     }
 }
 
