@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EquipItem : Item
 {
-    public int SlotID;
-    public int DefenceValue;
-    //Stats to buff? for now single def value
+    //TODO: Equipping items to player slots
+    //public int SlotID;
 }

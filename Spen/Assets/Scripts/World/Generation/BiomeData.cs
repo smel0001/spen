@@ -1,5 +1,7 @@
 ﻿/*
-Singleton class to load and store biome data.
+Singleton class to load and store biome data. Similar to ItemDatabase
+
+Uses Newtonsoft's json.net
 */
 using System.Collections;
 using System.Collections.Generic;
@@ -16,7 +18,6 @@ public sealed class BiomeData
     {
         Instance.LoadBiomeData();
     }
-    //private BiomeData(){}
 
     public static BiomeData Instance
     {

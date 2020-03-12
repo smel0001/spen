@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿/*
+Number of noise functions for world generation, primarily using perlin noise.
+See: https://gamedevacademy.org/complete-guide-to-procedural-level-generation-in-unity-part-1/
+Slight changes from guide above.
+*/
+using UnityEngine;
 
 public static class NoiseMap
 {

@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿/*
+InteractorItem is any UsableItem that may interact with the world.
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -12,7 +15,7 @@ public class InteractorItem : UsableItem
     #endregion
 
     #region Internal Fields
-    protected Cursor cursor;
+    protected Cursor cursor; //TODO make cursor a static reference in a UI script (or instance cursor into singleton)
     #endregion
 
     public InteractorItem(int id, string title, int value, string slug) : base(id, title, value, slug)
@@ -57,12 +60,14 @@ public class InteractorItem : UsableItem
     {
         if (obj != null)
         {
-            //something like this, cause change in world obj
+            //TODO: add worldobjects that can be interacted with
+            //e.g.
             //obj.GetComponent<InteractableWorldObject?>().Interact();
         }
         return true;
     }
 
+    //Show icon while selected
     public override void EnterSelected() 
     {
         cursor.SetSprite(this.Icon);

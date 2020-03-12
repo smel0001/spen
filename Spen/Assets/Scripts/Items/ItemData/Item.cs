@@ -1,16 +1,10 @@
-﻿using UnityEngine;
+﻿/*
+This class describes the base functionality of an Item in the game.
+It is also serializable to allow for loading in the Item database.
+*/
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
-/*
-Options for Item sub-classes:
-
-Seperate .json for each sub-class. Item ends up just being an interface.
-Some function that needs to be aware of all sub-types so all can be init'd.
-    - another option is that Item is not an interface and is general.
-
-Field in Item as definition then create another class? (feels jank).
-
-*/
 [System.Serializable]
 public class Item
 {
@@ -51,7 +45,7 @@ public class Item
     public void Init()
     {
         this.Icon = Resources.Load<Sprite>("Sprites/Items/" + Slug);
-        WorldItem = Resources.Load<GameObject>("Prefabs/WorldItem");
+        WorldItem = Resources.Load<GameObject>("Prefabs/Objects/WorldItem");
         ExtendInit();
     }
 
@@ -62,8 +56,6 @@ public class Item
         string data = "<color=#ff0000><b>" + this.Title + "</b></color>\n\n" + this.ID;
         return data;
     }
-
-    
 
     public virtual void EnterSelected() {}
     public virtual void WhileSelected()
@@ -82,6 +74,10 @@ public class Item
     }
 }
 
+/*
+Usable Item is any item that the player can use from their inventory via right clicking while it is selected.
+(12/3/2020 no instances of this item implemmented yet).
+*/
 [System.Serializable]
 public class UsableItem : Item
 {

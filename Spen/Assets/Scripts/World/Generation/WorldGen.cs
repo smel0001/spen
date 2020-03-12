@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿
+/*
+Script to handle tile world generation. And loading of tiles into tilemaps.
+In future will have more involvement in chunk management.
+For now loads a world of set size, potentially turn it into a procedural system.
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -37,14 +44,11 @@ public class WorldGen : MonoBehaviour
 
     public NoiseMap.Wave[] caveWaves;
 
-    public static int WorldSize = 16;
+    public static int WorldSize = 64;
     private int numChunks = WorldSize / Chunk.size;
 
     private Dictionary<System.Tuple<int, int>, GenTile[,]> fullchunkmap;
     private Dictionary<System.Tuple<int,int>,Chunk> loadedChunks;
-
-    //temp
-    public GameObject tree;
 
     void Awake()
     {
@@ -110,6 +114,7 @@ public class WorldGen : MonoBehaviour
         #endregion
         #region Feature Generation
         //Feature Generation
+        //TODO: this feature generation will need to be chunk related
 
         //Tree generation
         float[,] trees = NoiseMap.GeneratePerlinNoiseMap(WorldSize, WorldSize, 1.1f, 0, 0, NoiseMap.DefaultWaves);
@@ -132,7 +137,7 @@ public class WorldGen : MonoBehaviour
         // e.g. village, well, etc.
         #endregion
 
-        //Other Tiers?
+        //TODO: add functionality for a second layer (i.e. a cave layer) with different generation
         //float[,] caveMap = GenerateCaveBlock();
 
 
@@ -159,19 +164,13 @@ public class WorldGen : MonoBehaviour
         //Load current nearby chunks
 
         LoadAllChunks();
-
-
-
-        //Non terrain features pass
-        //temp trees example
-
-
     }
 
     //need to rename
     void GenerateOverworldBlock()
     { }
 
+    //WIP
     float[,] GenerateCaveBlock()
     {
         //Ridged multifractal noise

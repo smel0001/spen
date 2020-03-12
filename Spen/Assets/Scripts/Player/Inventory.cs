@@ -64,18 +64,13 @@ public class Inventory : MonoBehaviour
 
         updateSelectedSlot(0);
 
-
-        //Load saved items, can just be a list of ids and amounts somewhere (for now)
+        //Load somme items for testing
         AddItem(4);
         AddItem(0);
         AddItem(6);
         AddItem(6);
         AddItem(6);
         AddItem(5);
-        AddItem(40);
-        AddItem(40);
-        AddItem(40);
-        AddItem(40);
         AddItem(66);
         AddItem(67);
         AddItem(67);
@@ -156,7 +151,7 @@ public class Inventory : MonoBehaviour
             int? index = FindItemIndex(id);
             if (index != null)
             {
-                ItemData data = slots[index.GetValueOrDefault()].transform.GetComponentInChildren<ItemData>();
+                ItemUI data = slots[index.GetValueOrDefault()].transform.GetComponentInChildren<ItemUI>();
                 data.amount++;
                 data.UpdateAmountText();
                 return;
@@ -169,7 +164,7 @@ public class Inventory : MonoBehaviour
             {
                 items[i] = itemToAdd;
                 GameObject itemObj = Instantiate(inventoryItem, slots[i].transform);
-                ItemData objItemData = itemObj.GetComponent<ItemData>();
+                ItemUI objItemData = itemObj.GetComponent<ItemUI>();
                 objItemData.item = itemToAdd;
                 objItemData.slotIndex = i;
                 itemObj.GetComponent<Image>().sprite = itemToAdd.Icon;
@@ -180,6 +175,7 @@ public class Inventory : MonoBehaviour
     }
 
     //DEBUG FUNCTION
+    //Function allows an item to be added directly via it's instance (i.e. not through id and the database)
     public void AddItem(Item itemToAdd)
     {
         if (itemToAdd.Stackable)
@@ -187,13 +183,12 @@ public class Inventory : MonoBehaviour
             int? index = FindItemIndex(itemToAdd.ID);
             if (index != null)
             {
-                ItemData data = slots[index.GetValueOrDefault()].transform.GetComponentInChildren<ItemData>();
+                ItemUI data = slots[index.GetValueOrDefault()].transform.GetComponentInChildren<ItemUI>();
                 data.amount++;
                 data.UpdateAmountText();
                 return;
             }
         }
-
 
         for (int i = 0; i < items.Count; i++)
         {
@@ -201,8 +196,8 @@ public class Inventory : MonoBehaviour
             {
                 items[i] = itemToAdd;
                 GameObject itemObj = Instantiate(inventoryItem, slots[i].transform);
-                itemObj.GetComponent<ItemData>().item = itemToAdd;
-                itemObj.GetComponent<ItemData>().slotIndex = i;
+                itemObj.GetComponent<ItemUI>().item = itemToAdd;
+                itemObj.GetComponent<ItemUI>().slotIndex = i;
                 itemObj.GetComponent<Image>().sprite = itemToAdd.Icon;
                 itemObj.name = itemToAdd.Title;
                 break;
@@ -214,10 +209,8 @@ public class Inventory : MonoBehaviour
     {
         if (items[index].ID != -1)
         {
-            //TEMP
+            //Get player pos
             items[index].CreateInWorld(Vector3.zero);
-            //maybe move to some world list
-            //set to player pos
             RemoveItem(index);
         }
     }
@@ -226,7 +219,7 @@ public class Inventory : MonoBehaviour
     {
         if (items[index].ID != -1)
         {
-            ItemData myItem = slots[SelectedSlot].transform.GetComponentInChildren<ItemData>();
+            ItemUI myItem = slots[SelectedSlot].transform.GetComponentInChildren<ItemUI>();
             if (myItem.amount == 0)
             {
                 items[SelectedSlot].ExitSelected();

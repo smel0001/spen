@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿/*
+UI Tooltip element to show item data in inventory
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

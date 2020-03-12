@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*
+Data structure to hold tile information. To be expanded to allow live loading/unloading of chunks
+as well as storing object data.
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;

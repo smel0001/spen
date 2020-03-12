@@ -1,4 +1,10 @@
-﻿using System.Collections;
+﻿/*
+Manages the loading and interface to the ItemDatabase.
+All items are loaded from json at runtime to be available.
+
+Uses Newtonsoft's json.net
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;

@@ -1,5 +1,5 @@
 ﻿/*
-TODO see if this can be removed. See: ItemData.cs (may be renamed)
+TODO see if this can be removed. See: ItemUI
 */
 using System.Collections;
 using System.Collections.Generic;

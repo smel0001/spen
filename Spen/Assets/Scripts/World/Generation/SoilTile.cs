@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿/*
+extension on the Tilemap Extras package to allow interaction with tiles
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;

@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿/*
+A SpawnerItem is any Item that spawns a prefab/gameobject into the world.
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -25,7 +28,8 @@ public class SpawnerItem : InteractorItem
     private GameObject prefab;
     private bool spawnUnlock = true;
     private float cdTimer;
-    private GameObject singleton;
+    //TODO: allow for a singleton option so item can only spawn 1 instance if not consumed - see ObjectManager
+    //private GameObject singleton
     #endregion
     
     public SpawnerItem(int id, string title, int value, string slug) : base(id, title, value, slug)
@@ -33,7 +37,7 @@ public class SpawnerItem : InteractorItem
 
     protected override void ExtendInit()
     {
-        this.prefab = Resources.Load<GameObject>("Prefabs/" + PrefabSlug);
+        this.prefab = Resources.Load<GameObject>("Prefabs/Objects/" + PrefabSlug);
         cursor = GameObject.Find("UI/Canvas/Cursor").GetComponent<Cursor>();
         cdTimer = SpawnCooldown;
     }
@@ -41,9 +45,6 @@ public class SpawnerItem : InteractorItem
     protected override bool Interact<T>(T obj)
     {
         //Pre Handle Options
-
-        //TODO: fix singleton spawning
-        //if (SpawnSingleton && singleton != null) { return; }
         if (!spawnUnlock) { return false; }
 
         Vector3 pos = Vector3.zero;
@@ -54,7 +55,7 @@ public class SpawnerItem : InteractorItem
         }
         else
         {
-            pos = GameObject.Find("Player").transform.position; //kinda jank
+            pos = GameObject.Find("Player").transform.position; //TODO: reliable player position retrieval
         }
 
         bool wasSpawned;
@@ -69,13 +70,6 @@ public class SpawnerItem : InteractorItem
 
         if (wasSpawned)
         {
-            //Post Handle Options
-            /*
-            if (SpawnSingleton)
-            {
-                singleton = spawnedObj;
-            }
-            */
             spawnUnlock = false;
             cdTimer = SpawnCooldown;
         }
@@ -104,6 +98,11 @@ public class SpawnerItem : InteractorItem
     }
 }
 
+/*
+A TileSpawnerItem is any item that spawns a tile into the world's tilemap.
+Note: this class is very WIP.
+TODO: change InteractorItem 'InteractionTag' to a whitelist + blacklist system, to stop all tiles placing on top of one another over frames.
+*/
 [System.Serializable]
 public class TileSpawnerItem : SpawnerItem
 {
@@ -113,6 +112,7 @@ public class TileSpawnerItem : SpawnerItem
 
     #region Internal Fields
     private RuleTile tile;
+    private Tilemap map;
     #endregion
 
     public TileSpawnerItem(int id, string title, int value, string slug) : base(id, title, value, slug) {}
@@ -121,9 +121,6 @@ public class TileSpawnerItem : SpawnerItem
     {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         pos.z = 0f;
-
-        //This map is temp, maybe a slug to find correct map to place into?
-        Tilemap map = GameObject.Find("Clickable").GetComponent<Tilemap>();
 
         Vector3Int cellPos = map.WorldToCell(pos);
 
@@ -135,5 +132,6 @@ public class TileSpawnerItem : SpawnerItem
     {
         this.tile = Resources.Load<RuleTile>("Sprites/RuleTiles/" + TileSlug);
         cursor = GameObject.Find("UI/Canvas/Cursor").GetComponent<Cursor>();
+        map = GameObject.Find("Clickable").GetComponent<Tilemap>();
     }
 }

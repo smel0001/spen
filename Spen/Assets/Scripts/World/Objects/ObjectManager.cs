@@ -1,4 +1,9 @@
-﻿using System.Collections;
+﻿/*
+Manages all objects spawned into world.
+Primary purpose is to ensure objects placed into the grid cannot be placed on top of one another.
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -16,7 +21,6 @@ public class ObjectManager
 
     static ObjectManager()
     {
-        //Construct
         map = GameObject.Find("Clickable").GetComponent<Tilemap>();
     }
 
@@ -86,11 +90,5 @@ public class ObjectManager
         {
             return false;
         }
-    }
-
-    //Debug Function
-    public int GetCount()
-    {
-        return objectDict.Count;
     }
 }

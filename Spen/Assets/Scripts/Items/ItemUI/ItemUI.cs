@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemData : MonoBehaviour,
+public class ItemUI : MonoBehaviour,
 IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Item item;
@@ -57,9 +57,9 @@ IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerEnterHandler, IPoi
         GameObject castHit = eventData.pointerCurrentRaycast.gameObject;
         if (castHit)
         {
-            if (castHit.GetComponent<ItemData>() != null)
+            if (castHit.GetComponent<ItemUI>() != null)
             {
-                ItemData slotItem = castHit.GetComponent<ItemData>();
+                ItemUI slotItem = castHit.GetComponent<ItemUI>();
 
                 Item hold = inv.items[slotItem.slotIndex];
                 int holdIndex = slotItem.slotIndex;

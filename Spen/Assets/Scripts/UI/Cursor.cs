@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿/*
+Player UI cursor to show where the mouse pointer is.
+TODO: should be maybe singletion/static
+*/
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
