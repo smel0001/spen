@@ -538,7 +538,6 @@ MonoBehaviour:
   - seed: 1281
     frequency: 1
     amplitude: 1
-  tree: {fileID: 1475214252878984063, guid: 4edc96b6170794e4ea1d9441d72da024, type: 3}
 --- !u!1 &149976607
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,10 +1197,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AssetsPPU: 32
-  m_RefResolutionX: 480
-  m_RefResolutionY: 270
+  m_RefResolutionX: 640
+  m_RefResolutionY: 360
   m_UpscaleRT: 0
-  m_PixelSnapping: 0
+  m_PixelSnapping: 1
   m_CropFrameX: 0
   m_CropFrameY: 0
   m_StretchFill: 0
@@ -1232,7 +1231,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 5.625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1698,7 +1697,7 @@ Canvas:
   m_GameObject: {fileID: 1000385477}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1707,7 +1706,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1090788333
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!1 &1168556586
