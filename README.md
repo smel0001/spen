@@ -21,3 +21,8 @@ Right Click to use an item
 Some packages have been used in this project:
 * [Json.Net](https://github.com/JamesNK/Newtonsoft.Json)
 * [2D Extras](https://github.com/Unity-Technologies/2d-extras)
+
+Art Used in this project:
+* [Tiny RPG Forest](https://assetstore.unity.com/packages/2d/characters/tiny-rpg-forest-114685)
+* [Kenney- UIPack](https://opengameart.org/content/ui-pack)
+* [josehzz - Farming Crops](https://opengameart.org/content/farming-crops-16x16)
